@@ -343,7 +343,7 @@
 
     /* SECTIONS */
     .section {
-      padding: 5rem 0;
+      padding: 2rem 0;
     }
 
     .section-header {
@@ -1573,6 +1573,13 @@
     gap: 1rem;
   }
 }
+
+/* ANALYZE CARDS HOVER EFFECT */
+.analyze-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(60, 130, 246, 0.6) !important;
+  box-shadow: 0 10px 30px rgba(60, 130, 246, 0.2);
+}
   
   </style>
 </head>
@@ -1586,6 +1593,7 @@
       </a>
       <nav class="main-nav">
         <a href="#outcomes">Results</a>
+        <a href="#services">Services</a>
         <a href="#stack">Stack</a>
         <a href="#process">Process</a>
         <a href="#cta" class="nav-cta">Book Strategy Call</a>
@@ -1865,6 +1873,133 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-kicker">Our Offerings</p>
+        <h2 class="section-title">Engineering Your Escape from Busywork</h2>
+        <p class="section-subtitle">
+          We don't just "zap" things together. We engineer resilient, enterprise-grade operating systems for your business.
+        </p>
+      </div>
+
+      <div class="stack-grid" style="margin-bottom: 4rem;"> <div class="stack-card" style="grid-column: span 3;"> <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 300px;">
+    <div class="outcome-icon">🔍</div> 
+    <h3>01. The Operations Audit & Blueprint</h3>
+    <p>
+        Before we write a single line of code, we map your entire business logic. We identify bottlenecks, calculate the ROI of automation, and deliver a full architectural blueprint.
+    </p>
+    <ul>
+        <li>Full workflow discovery & process mapping</li>
+        <li>Tech stack compatibility analysis</li>
+        <li>ROI calculation & implementation roadmap</li>
+        <li><strong>Deliverable:</strong> A complete PDF Engineering Blueprint</li>
+    </ul>
+    <br>
+    <a href="#cta" class="btn btn-secondary">Get Your Blueprint</a>
+</div>
+
+<div style="flex: 1;">
+    <p style="font-family: 'Inter Tight'; font-weight: 700; color: var(--color-accent); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">What we analyze:</p>
+    
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+        
+        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.5rem;">📝</span>
+                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Manual Data Entry</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Hours wasted copying information between systems</p>
+        </div>
+
+        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.5rem;">💧</span>
+                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Lead Leakage</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Prospects falling through unmonitored channels</p>
+        </div>
+
+        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.5rem;">🔌</span>
+                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">API Gaps</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Legacy systems that don't talk to each other</p>
+        </div>
+
+        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                <span style="font-size: 1.5rem;">🔀</span>
+                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Fragmented Tools</h4>
+            </div>
+            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Disconnected workflows creating chaos</p>
+        </div>
+
+    </div>
+</div>
+            </div>
+        </div>
+      </div>
+
+      <div class="faq-grid" style="max-width: 100%; grid-template-columns: repeat(2, 1fr);">
+        
+        <div class="stack-card">
+            <div class="outcome-icon">⚙️</div>
+            <h3>02. Autonomous System Build</h3>
+            <p>
+                We build the infrastructure that runs your business. Using deep API integrations and RPA for legacy systems, we connect your isolated tools into one fluid ecosystem.
+            </p>
+            <div style="margin-top: 1.5rem;">
+                <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Common Builds:</h4>
+                <ul>
+                    <li>Automated Client Onboarding Flows</li>
+                    <li>Finance & Invoice Reconciliation</li>
+                    <li>CRM Sync & Lead Routing</li>
+                    <li>Legacy System RPA Bridging</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="stack-card">
+            <div class="outcome-icon">🧠</div>
+            <h3>03. MCP Agent Deployment</h3>
+            <p>
+                Move beyond simple "if-this-then-that" logic. We deploy intelligent AI agents using the <strong>Model Context Protocol</strong> that can reason, make decisions, and execute complex tasks.
+            </p>
+            <div style="margin-top: 1.5rem;">
+                <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Agent Capabilities:</h4>
+                <ul>
+                    <li>Intelligent Customer Support Triage</li>
+                    <li>Context-aware Document Analysis</li>
+                    <li>Autonomous Research & Reporting</li>
+                    <li>Human-in-the-loop decision making</li>
+                </ul>
+            </div>
+        </div>
+
+      </div>
+
+      <div class="cta-section" style="margin-top: 4rem; padding: 3rem; background: linear-gradient(135deg, rgba(11, 17, 32, 0.9), rgba(5, 8, 22, 0.9));">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p class="section-kicker" style="margin-bottom: 1rem;">Recurring Assurance</p>
+            <h3 style="font-family: 'Inter Tight'; font-size: 1.8rem; margin-bottom: 1rem;">04. Managed Autonomy (MaaS)</h3>
+            <p style="margin-bottom: 2rem;">
+                APIs change. Tokens expire. Businesses evolve. We provide 24/7 monitoring and maintenance to ensure your autonomous operations never go offline.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> 99.9% Uptime Monitoring</span>
+                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Error Handling & Recovery</span>
+                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Monthly Optimization Sprints</span>
+            </div>
+            <a href="#cta" class="btn btn-primary">Discuss Maintenance Plans</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
