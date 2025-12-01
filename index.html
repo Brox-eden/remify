@@ -1593,6 +1593,29 @@
 }
 
 @media screen and (max-width: 768px) {
+  .analyze-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .service-flex-container {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+
+  .service-flex-container > div {
+    min-width: 100% !important;
+    flex: none !important;
+  }
+
+  .service-main-card {
+    grid-column: span 1 !important;
+  }
+
+  .service-cards-grid {
+    grid-template-columns: 1fr !important;
+  }
+  
   body {
     font-size: 18px;
   }
@@ -1907,7 +1930,9 @@
         </p>
       </div>
 
-      <div class="stack-grid" style="margin-bottom: 4rem;"> <div class="stack-card" style="grid-column: span 3;"> <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;">
+      <div class="stack-grid" style="margin-bottom: 4rem;"> 
+        <div class="stack-card service-main-card" style="grid-column: span 3;"> 
+          <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;" class="service-flex-container">
                 <div style="flex: 1; min-width: 300px;">
     <div class="outcome-icon">🔍</div> 
     <h3>01. The Operations Audit & Blueprint</h3>
@@ -1927,7 +1952,7 @@
 <div style="flex: 1;">
     <p style="font-family: 'Inter Tight'; font-weight: 700; color: var(--color-accent); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">What we analyze:</p>
     
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" class="analyze-grid">
         
         <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
@@ -1967,7 +1992,7 @@
         </div>
       </div>
 
-      <div class="faq-grid" style="max-width: 100%; grid-template-columns: repeat(2, 1fr);">
+      <div class="faq-grid service-cards-grid" style="max-width: 100%; grid-template-columns: repeat(2, 1fr);">
         
         <div class="stack-card">
             <div class="outcome-icon">⚙️</div>
