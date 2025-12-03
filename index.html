@@ -10,2774 +10,930 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  
-  <style>
-  /* RESET & BASE */
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-
-    /* 1. Base Dark Color (Seen during rubber-band scroll) */
-    html {
-      background-color: #020617; 
-      scroll-behavior: smooth;
-      /* Removed 'overscroll-behavior-y: none' to bring back rubber band */
-    }
-    
-    /* 2. Global Atmosphere (The Blue/Teal Gradient) */
-    body {
-      font-family: "IBM Plex Sans", system-ui, sans-serif;
-      line-height: 1.6;
-      
-      /* THE GLOBAL GLOW - Fixed position */
-      background: 
-        radial-gradient(circle at 20% 0%, rgba(60, 130, 246, 0.4), transparent 50%),
-        radial-gradient(circle at 90% 50%, rgba(78, 244, 200, 0.2), transparent 50%),
-        radial-gradient(circle at 10% 100%, rgba(60, 130, 246, 0.3), transparent 50%),
-        linear-gradient(180deg, #020617 0%, #0f172a 50%, #020617 100%);
-      
-      /* KEY FIX: 'fixed' makes the gradient stretch across the whole site */
-      background-attachment: fixed; 
-      background-size: cover;
-      background-repeat: no-repeat;
-      
-      color: #e5e7eb;
-      overflow-x: hidden;
-      min-height: 100vh;
-    }
-
-    /* THEME VARIABLES */
-    :root {
-      --color-bg: #050816;
-      --color-surface: #0b1120;
-      --color-border: rgba(148, 163, 184, 0.35);
-      --color-text: #e5e7eb;
-      --color-text-muted: #9ca3af;
-      --color-primary: #3c82f6;
-      --color-accent: #4ef4c8;
-      --shadow: 0 20px 60px rgba(15, 23, 42, 0.9);
-      --container-width: 1200px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: var(--container-width);
-      margin: 0 auto;
-      padding: 0 1.5rem;
-    }
-
-    /* HEADER */
-    .site-header {
-      position: fixed; /* Follows you as you scroll ("like before") */
-      inset: 0 0 auto 0;
-      height: 90px; /* A bit taller for a spacious feel */
-      z-index: 50;
-      
-      /* Make it Clear/Transparent */
-      background: rgba(2, 6, 23, 0.1); /* Almost invisible tint */
-      backdrop-filter: blur(8px); /* Subtle glass blur so text stays readable */
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05); /* Very faint edge */
-      
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-container {
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.7rem;
-      text-decoration: none;
-      color: var(--color-text);
-    }
-
-    .brand-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      object-fit: contain; /* Ensures logo scales properly */
-    }
-
-    .brand-name {
-      font-family: "Inter Tight";
-      font-weight: 600;
-      font-size: 1.1rem;
-    }
-
-    .main-nav {
-      display: flex;
-      align-items: center;
-      gap: 1.8rem;
-    }
-
-    .main-nav a {
-      text-decoration: none;
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-      transition: color 0.2s ease;
-    }
-
-    .main-nav a:hover {
-      color: var(--color-text);
-    }
-
-    .nav-cta {
-      padding: 0.55rem 1.2rem;
-      border-radius: 999px;
-      border: 1px solid rgba(60, 130, 246, 0.6);
-      color: var(--color-primary) !important;
-      background: rgba(60, 130, 246, 0.1);
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* HOVER: Fill with color and glow */
-    .nav-cta:hover {
-      background: var(--color-primary); 
-      color: #020617 !important; /* Dark text on blue bg */
-      box-shadow: 0 0 25px rgba(60, 130, 246, 0.6);
-      transform: translateY(-2px);
-      border-color: var(--color-primary);
-    }
-
-    /* ACTIVE: Press effect */
-    .nav-cta:active {
-      transform: scale(0.95) translateY(0);
-      box-shadow: 0 0 10px rgba(60, 130, 246, 0.4);
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      padding-top: 140px;
-      padding-bottom: 80px;
-      display: flex;
-      align-items: center;
-      
-      /* Background is now transparent so the Body background shows through */
-      background: transparent; 
-    }
-
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .hero-eyebrow {
-      display: inline-block;
-      padding: 0.4rem 0.9rem;
-      border-radius: 999px;
-      background: rgba(60, 130, 246, 0.15);
-      border: 1px solid rgba(60, 130, 246, 0.4);
-      color: var(--color-accent);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-title {
-      font-family: "Inter Tight";
-      font-weight: 800;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.1;
-      margin: 0 0 1.5rem;
-      background: linear-gradient(135deg, #ffffff 0%, #e5e7eb 50%, #4ef4c8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-subtitle {
-      font-size: 1.15rem;
-      color: var(--color-text-muted);
-      margin-bottom: 2.5rem;
-      max-width: 580px;
-    }
-
-    .hero-subtitle strong {
-      color: var(--color-text);
-      font-weight: 600;
-    }
-
-    /* STATS GRID - KEY ADDITION */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .stat-card {
-      background: rgba(11, 17, 32, 0.6);
-      border: 1px solid rgba(60, 130, 246, 0.3);
-      border-radius: 16px;
-      padding: 1.5rem;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(60, 130, 246, 0.6);
-      box-shadow: 0 20px 60px rgba(60, 130, 246, 0.2);
-    }
-
-    .stat-value {
-      font-family: "Inter Tight";
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: var(--color-accent);
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .stat-label {
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    /* BUTTONS */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.9rem 2rem;
-      border-radius: 999px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #3c82f6, #4ef4c8);
-      color: #020617;
-      box-shadow: 0 20px 60px rgba(60, 130, 246, 0.4);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 25px 70px rgba(60, 130, 246, 0.6);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      color: var(--color-text);
-      border: 1px solid rgba(148, 163, 184, 0.5);
-    }
-
-    .btn-secondary:hover {
-      border-color: var(--color-text);
-      background: rgba(148, 163, 184, 0.1);
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
-
-    /* VISUAL PROOF */
-    .hero-visual {
-      position: relative;
-      padding: 2rem;
-      border-radius: 24px;
-      background: rgba(11, 17, 32, 0.5);
-      border: 1px solid rgba(60, 130, 246, 0.3);
-      box-shadow: var(--shadow);
-    }
-
-    .proof-header {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: var(--color-accent);
-      margin-bottom: 1.5rem;
-    }
-
-    .proof-metrics {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .proof-metric {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .proof-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, rgba(60, 130, 246, 0.3), rgba(78, 244, 200, 0.3));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-    }
-
-    .proof-content h4 {
-      margin: 0;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--color-accent);
-    }
-
-    .proof-content p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-    }
-
-    /* SECTIONS */
-    .section {
-      padding: 2rem 0;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-
-    .section-kicker {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--color-accent);
-      margin-bottom: 1rem;
-    }
-
-    .section-title {
-      font-family: "Inter Tight";
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      margin: 0 0 1rem;
-      line-height: 1.2;
-    }
-
-    .section-subtitle {
-      font-size: 1.1rem;
-      color: var(--color-text-muted);
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    /* OUTCOMES GRID - INSPIRED BY AI ACQUISITION */
-    .outcomes-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-
-    .outcome-card {
-      background: rgba(11, 17, 32, 0.6);
-      border: 1px solid var(--color-border);
-      border-radius: 20px;
-      padding: 2rem;
-      transition: all 0.3s ease;
-    }
-
-    .outcome-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(60, 130, 246, 0.6);
-      box-shadow: 0 25px 70px rgba(60, 130, 246, 0.3);
-    }
-
-    .outcome-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(60, 130, 246, 0.2), rgba(78, 244, 200, 0.2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .outcome-card h3 {
-      font-family: "Inter Tight";
-      font-size: 1.3rem;
-      margin: 0 0 0.5rem;
-    }
-
-    .outcome-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--color-accent);
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-
-    .outcome-card p {
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-      margin: 0;
-    }
-
-    /* SOCIAL PROOF SECTION */
-    .social-proof {
-      padding: 4rem 0;
-    }
-
-    .proof-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      text-align: center;
-    }
-
-    .proof-stat h3 {
-      font-family: "Inter Tight";
-      font-size: 3rem;
-      font-weight: 800;
-      color: var(--color-accent);
-      margin: 0 0 0.5rem;
-    }
-
-    .proof-stat p {
-      font-size: 0.95rem;
-      color: var(--color-text-muted);
-      margin: 0;
-    }
-
-    /* STACK SECTION */
-    .stack-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-
-    .stack-card {
-      background: rgba(11, 17, 32, 0.6);
-      border: 1px solid var(--color-border);
-      border-radius: 20px;
-      padding: 2.5rem;
-      transition: all 0.3s ease;
-    }
-
-    .stack-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(60, 130, 246, 0.6);
-      box-shadow: 0 25px 70px rgba(60, 130, 246, 0.3);
-    }
-
-    .stack-number {
-      display: inline-block;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, rgba(60, 130, 246, 0.3), rgba(78, 244, 200, 0.3));
-      text-align: center;
-      line-height: 36px;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-    }
-
-    .stack-card h3 {
-      font-family: "Inter Tight";
-      font-size: 1.4rem;
-      margin: 0 0 1rem;
-    }
-
-    .stack-card p {
-      color: var(--color-text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    .stack-card ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .stack-card li {
-      padding: 0.5rem 0;
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-      position: relative;
-      padding-left: 1.5rem;
-    }
-
-    .stack-card li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: var(--color-accent);
-      font-weight: 700;
-    }
-
-    /* FAQ SECTION */
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  background: rgba(11, 17, 32, 0.6);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 2rem;
-  transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-  transform: translateY(-4px);
-  border-color: rgba(60, 130, 246, 0.6);
-  box-shadow: 0 20px 60px rgba(60, 130, 246, 0.15);
-}
-
-.faq-question {
-  font-family: "Inter Tight";
-  font-size: 1.2rem;
-  color: var(--color-text);
-  margin: 0 0 1rem;
-  font-weight: 600;
-}
-
-.faq-answer {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  margin: 0;
-  line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-    /* CTA SECTION */
-    .cta-section {
-      background: 
-        radial-gradient(circle at center, rgba(60, 130, 246, 0.3), transparent 60%),
-        rgba(11, 17, 32, 0.6);
-      border: 1px solid rgba(60, 130, 246, 0.4);
-      border-radius: 32px;
-      padding: 4rem 3rem;
-      text-align: center;
-      margin: 5rem 0;
-    }
-
-    .cta-section h2 {
-      font-family: "Inter Tight";
-      font-size: 2.5rem;
-      font-weight: 800;
-      margin: 0 0 1rem;
-    }
-
-    .cta-section p {
-      font-size: 1.1rem;
-      color: var(--color-text-muted);
-      margin: 0 0 2.5rem;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* FOOTER */
-    .site-footer {
-      width: 100%; /* Forces full width */
-      border-top: 1px solid rgba(148, 163, 184, 0.1);
-      padding: 1.4rem 0;
-      
-      /* Solid Black Background to finish the page */
-      background: #020617; 
-      
-      position: relative;
-      z-index: 20;
-      margin-bottom: 0;
-    }
-
-    .footer-inner {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 3rem;
-    }
-
-    .footer-left {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .copyright {
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-      margin: 0;
-    }
-
-    .legal-links a {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      margin-right: 1.5rem;
-    }
-
-    .footer-links {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    .footer-links a {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-
-    .footer-links a:hover {
-      color: var(--color-text);
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-    
-    .social-links a {
-      color: var(--color-text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-
-    .social-links a:hover {
-      color: var(--color-text);
-    }
-
-    /* RESPONSIVE FOOTER FIX */
-    @media (max-width: 768px) {
-      .footer-inner {
-        flex-direction: column;
-        gap: 2rem;
-        align-items: flex-start;
-      }
-      .social-links {
-        justify-content: flex-start;
-      }
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-        text-align: center;
-      }
-
-      .hero-copy {
-        margin: 0 auto;
-      }
-
-      .hero-actions {
-        justify-content: center;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .outcomes-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .proof-stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .stack-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero {
-        padding-top: 120px;
-      }
-
-      .hero-title {
-        font-size: 2rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr !important; 
-      }
-
-      .outcomes-grid {
-        grid-template-columns: 1fr !important;
-      }
-
-      .proof-stats {
-        grid-template-columns: 1fr !important;
-      }
-
-      .main-nav {
-        display: none;
-      }
-
-      .cta-section {
-        padding: 3rem 2rem;
-      }
-
-      .cta-section h2 {
-        font-size: 1.8rem;
-      }
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .hero-eyebrow,
-    .hero-title,
-    .hero-subtitle,
-    .stats-grid,
-    .hero-actions {
-      animation: fadeUp 0.8s ease-out forwards;
-    }
-
-    .hero-title { animation-delay: 0.1s; }
-    .hero-subtitle { animation-delay: 0.2s; }
-    .stats-grid { animation-delay: 0.3s; }
-    .hero-actions { animation-delay: 0.4s; }
-
-    /* TYPING ANIMATION STYLES */
-    .typewriter-word {
-      white-space: nowrap; /* Prevents text from wrapping during animation */
-      /* NEON GLOW EFFECT */
-      color: var(--color-accent); /* Use the bright accent color */
-      text-shadow: 
-        0 0 5px rgba(78, 244, 200, 0.5), /* Soft inner glow */
-        0 0 10px rgba(78, 244, 200, 0.4), /* Brighter outer glow */
-        0 0 20px rgba(78, 244, 200, 0.3); /* Soft edge glow */
-    }
-
-    .typing-cursor {
-      display: inline-block;
-      width: 4px;
-      height: 1em; /* Matches the height of the line */
-      background-color: var(--color-accent);
-      margin-left: 0.25rem;
-      animation: blink 0.7s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-
-    /* PROCESS TIMELINE - PREMIUM GRADIENT STYLE */
-    .process-wrapper {
-      position: relative;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 4rem 0;
-    }
-
-    /* The Central Gradient Bar */
-    .process-line {
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 4px; /* Thicker line */
-      /* THE REQUESTED GREEN-TO-BLUE GRADIENT */
-      background: linear-gradient(to bottom, 
-        var(--color-accent) 0%, 
-        var(--color-primary) 100%
-      );
-      transform: translateX(-50%);
-      z-index: 1;
-      box-shadow: 0 0 20px rgba(78, 244, 200, 0.3); /* Glow */
-      border-radius: 4px;
-      opacity: 0.3; /* Dimmed by default */
-      transition: opacity 0.5s ease;
-    }
-    
-    /* Light up the line when active */
-    .process-wrapper:hover .process-line {
-        opacity: 0.8;
-    }
-
-    .process-step {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      margin-bottom: 8rem; /* More space for dramatic effect */
-      z-index: 2;
-      
-      transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); /* Smooth pop effect */
-      opacity: 0.4;
-      filter: blur(2px); /* Blur inactive steps slightly */
-    }
-
-    /* The "Wheel" Node */
-    .process-node {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px; /* Bigger wheel */
-      height: 60px;
-      background: #020617; /* Dark center */
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 1.2rem;
-      z-index: 10;
-      
-      /* Gradient Border Trick */
-      border: 3px solid transparent;
-      background-image: linear-gradient(#020617, #020617), 
-                        linear-gradient(135deg, #4ef4c8, #3c82f6);
-      background-origin: border-box;
-      background-clip: content-box, border-box;
-      
-      box-shadow: 0 0 30px rgba(0,0,0,0.5);
-      color: var(--color-text-muted);
-      transition: all 0.5s ease;
-    }
-
-    .process-content {
-      width: 40%;
-      background: rgba(11, 17, 32, 0.8); /* Darker, more solid */
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 24px;
-      padding: 2.5rem;
-      position: relative;
-      transition: all 0.5s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .process-content h3 {
-      font-family: "Inter Tight";
-      font-size: 1.5rem;
-      margin: 0 0 0.8rem;
-      color: var(--color-text);
-      /* Gradient Text for Headers */
-      background: linear-gradient(90deg, #fff, #ccc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .process-content p {
-      font-size: 1rem;
-      color: var(--color-text-muted);
-      margin: 0;
-      line-height: 1.6;
-    }
-
-    /* Alternating Layout */
-    .process-step:nth-child(odd) .process-content { margin-right: auto; text-align: right; }
-    .process-step:nth-child(even) .process-content { margin-left: auto; text-align: left; }
-
-    /* ACTIVE STATE (The "Wow" Moment) */
-    .process-step.active {
-      opacity: 1;
-      filter: blur(0);
-      transform: scale(1.05);
-    }
-
-    .process-step.active .process-node {
-      /* Full Gradient Wheel when active */
-      background-image: linear-gradient(135deg, #4ef4c8, #3c82f6);
-      color: #020617; /* Dark text */
-      box-shadow: 
-        0 0 0 4px rgba(78, 244, 200, 0.2), /* Ring 1 */
-        0 0 30px rgba(60, 130, 246, 0.6); /* Outer Glow */
-      transform: translateX(-50%) rotate(360deg); /* Rotate effect */
-    }
-
-    .process-step.active .process-content {
-      border-color: rgba(78, 244, 200, 0.5);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    }
-
-    /* Connectors */
-    .process-content::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 50px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--color-accent), transparent);
-      opacity: 0; /* Hidden by default */
-      transition: opacity 0.5s;
-    }
-    
-    .process-step.active .process-content::after { opacity: 1; }
-
-    .process-step:nth-child(odd) .process-content::after {
-      right: -50px;
-      background: linear-gradient(to left, var(--color-accent), transparent);
-    }
-    .process-step:nth-child(even) .process-content::after {
-      left: -50px;
-      background: linear-gradient(to right, var(--color-accent), transparent);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .process-line { left: 30px; }
-      .process-node { left: 30px; }
-      
-      .process-content {
-        width: calc(100% - 80px);
-        margin-left: 80px !important;
-        margin-right: 0 !important;
-        text-align: left !important;
-      }
-      
-      .process-content::after { display: none; } /* Hide connectors on mobile */
-    }
-    
-    /* --- PARTNERS TAPE (Scrolling + White Cards) --- */
-    .partners {
-      width: 100%;
-      padding: 2rem 0;
-      overflow: hidden; /* Hides the scrollbar */
-      
-      /* Background for the strip itself */
-      background: rgba(255, 255, 255, 0); 
-      border-top: 1px solid rgba(255, 255, 255, 0);
-      border-bottom: 1px solid rgba(255, 255, 255, 0);
-      position: relative;
-    }
-
-    .partners-label {
-      text-align: center;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--color-text-muted);
-      margin-bottom: 2rem;
-      opacity: 0.7;
-    }
-
-    /* The Moving Track */
-    .partners-track {
-      display: flex;
-      align-items: center;
-      gap: 3rem; /* Space between cards */
-      width: max-content; 
-      
-      /* THE ANIMATION: Slide forever */
-      animation: tickerScroll 40s linear infinite;
-    }
-    
-    /* Pause when hovering */
-    .partners-track:hover {
-      animation-play-state: paused;
-    }
-
-    @keyframes tickerScroll {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); } 
-    }
-
-    /* THE WHITE LABEL / CARD STYLE (Restored) */
-    .partner-item {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      
-      /* This is the white background you wanted back */
-      background: rgba(255, 255, 255, 0.8); 
-      backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      
-      border-radius: 12px;
-      padding: 1rem 2.5rem; /* Size of the card */
-      
-      transition: all 0.3s ease;
-      opacity: 0.9;
-    }
-
-    .partner-item:hover {
-      transform: scale(1.05);
-      opacity: 1;
-      background: #ffffff; /* Pure white on hover */
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-    }
-
-    .partner-img {
-      height: 40px; /* Logo size inside the card */
-      width: auto;
-      display: block;
-      mix-blend-mode: multiply; /* Helps black logo sit nicely */
-    }
-
-    /* --- NEW SECTION: TESTIMONIALS --- */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-
-    .testimonial-card {
-      background: rgba(11, 17, 32, 0.6);
-      border: 1px solid var(--color-border);
-      border-radius: 24px;
-      padding: 2.5rem;
-      position: relative;
-      transition: all 0.3s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .testimonial-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--color-accent);
-      box-shadow: 0 20px 60px rgba(60, 130, 246, 0.15);
-    }
-
-    .testimonial-stars {
-      color: #fbbf24; /* Gold color */
-      font-size: 1.1rem;
-      letter-spacing: 2px;
-      margin-bottom: 1.5rem;
-    }
-
-    .testimonial-text {
-      font-size: 1.05rem;
-      color: var(--color-text);
-      font-style: italic;
-      line-height: 1.7;
-      margin-bottom: 2rem;
-    }
-
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      padding-top: 1.5rem;
-    }
-
-    .author-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3c82f6, #4ef4c8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #020617;
-      font-size: 1rem;
-    }
-
-    .author-info h4 {
-      margin: 0;
-      font-size: 0.95rem;
-      color: var(--color-text);
-    }
-
-    .author-info p {
-      margin: 0;
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
-    }
-
-    @media (max-width: 1024px) {
-      .testimonials-grid { grid-template-columns: 1fr; }
-    }
-
-    /* FAQ SECTION */
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.faq-item {
-  background: rgba(11, 17, 32, 0.6);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  padding: 2rem;
-  transition: all 0.3s ease;
-}
-
-.faq-item:hover {
-  transform: translateY(-4px);
-  border-color: rgba(60, 130, 246, 0.6);
-  box-shadow: 0 20px 60px rgba(60, 130, 246, 0.15);
-}
-
-.faq-question {
-  font-family: "Inter Tight";
-  font-size: 1.2rem;
-  color: var(--color-text);
-  margin: 0 0 1rem;
-  font-weight: 600;
-}
-
-.faq-answer {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  margin: 0;
-  line-height: 1.6;
-}
-
-@media (max-width: 768px) {
-  .faq-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* --- FUTURISTIC ABOUT US SECTION --- */
-.about-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin-bottom: 4rem;
-}
-
-.about-feature-card {
-  position: relative;
-  background: rgba(11, 17, 32, 0.4);
-  border: 1px solid rgba(60, 130, 246, 0.2);
-  border-radius: 24px;
-  padding: 2.5rem;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  backdrop-filter: blur(10px);
-}
-
-/* Glowing Card Effect */
-.card-glow {
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(60, 130, 246, 0.15) 0%,
-    transparent 50%
-  );
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.about-feature-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(60, 130, 246, 0.6);
-  box-shadow: 
-    0 20px 60px rgba(60, 130, 246, 0.2),
-    0 0 0 1px rgba(60, 130, 246, 0.1);
-}
-
-.about-feature-card:hover .card-glow {
-  opacity: 1;
-}
-
-.card-content {
-  position: relative;
-  z-index: 2;
-}
-
-.feature-header {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.feature-icon-wrapper {
-  width: 60px;
-  height: 60px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, rgba(60, 130, 246, 0.2), rgba(78, 244, 200, 0.2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.8rem;
-  border: 1px solid rgba(60, 130, 246, 0.3);
-}
-
-.feature-header h3 {
-  font-family: "Inter Tight";
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--color-text);
-}
-
-.feature-description {
-  font-size: 1rem;
-  color: var(--color-text-muted);
-  line-height: 1.7;
-  margin: 0 0 1rem;
-}
-
-.feature-stat {
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(60, 130, 246, 0.2);
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-}
-
-.stat-number {
-  font-family: "Inter Tight";
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: var(--color-accent);
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-/* Values Dashboard */
-.values-dashboard {
-  background: rgba(11, 17, 32, 0.6);
-  border: 1px solid rgba(60, 130, 246, 0.2);
-  border-radius: 24px;
-  padding: 3rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.values-dashboard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(60, 130, 246, 0.5), transparent);
-}
-
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 3rem;
-}
-
-.dashboard-header h3 {
-  font-family: "Inter Tight";
-  font-size: 2rem;
-  font-weight: 800;
-  margin: 0;
-  color: var(--color-text);
-}
-
-.dashboard-indicator {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: rgba(78, 244, 200, 0.1);
-  border: 1px solid rgba(78, 244, 200, 0.3);
-  border-radius: 999px;
-}
-
-.indicator-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.indicator-text {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-accent);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.values-grid-modern {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-}
-
-.value-card {
-  padding: 2rem;
-  background: rgba(5, 8, 22, 0.6);
-  border: 1px solid rgba(60, 130, 246, 0.15);
-  border-radius: 16px;
-  transition: all 0.3s ease;
-}
-
-.value-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(60, 130, 246, 0.4);
-  background: rgba(11, 17, 32, 0.8);
-}
-
-.value-icon-circle {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(60, 130, 246, 0.2), rgba(78, 244, 200, 0.2));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid rgba(60, 130, 246, 0.3);
-}
-
-.value-card h4 {
-  font-family: "Inter Tight";
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin: 0 0 0.5rem;
-  color: var(--color-text);
-}
-
-.value-card p {
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-  margin: 0 0 1rem;
-  line-height: 1.5;
-}
-
-.value-progress {
-  height: 4px;
-  background: rgba(60, 130, 246, 0.1);
-  border-radius: 999px;
-  overflow: hidden;
-}
-
-.progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  border-radius: 999px;
-  transition: width 1s ease;
-}
-
-/* --- TEAM SECTION --- */
-.team-section {
-  background: rgba(255, 255, 255, 0.01);
-}
-
-/* UPDATED TEAM GRID (Flexbox for Centering) */
-.team-grid {
-  display: flex; /* Flexbox allows easier centering of the last row */
-  flex-wrap: wrap; /* Allows items to wrap to next line */
-  justify-content: center; /* Centers everything horizontally */
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-/* Ensure cards stay a consistent size */
-.team-card {
-  flex: 0 1 350px; /* Basis of 350px, but can shrink */
-  width: 100%;
-  
-  background: rgba(11, 17, 32, 0.6);
-  border: 1px solid rgba(60, 130, 246, 0.2);
-  border-radius: 24px;
-  padding: 2.5rem;
-  transition: all 0.4s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.team-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
-  transform: scaleX(0);
-  transition: transform 0.4s ease;
-}
-
-.team-card:hover::before {
-  transform: scaleX(1);
-}
-
-.team-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(60, 130, 246, 0.5);
-  box-shadow: 0 20px 60px rgba(60, 130, 246, 0.2);
-}
-
-.team-card-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.team-avatar {
-  position: relative;
-  width: 120px;
-  height: 120px;
-  margin: 0 auto;
-}
-
-.team-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid rgba(60, 130, 246, 0.3);
-}
-
-.avatar-ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-accent)) border-box;
-  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-}
-
-.team-card:hover .avatar-ring {
-  opacity: 1;
-}
-
-.team-info {
-  text-align: center;
-}
-
-.team-info h3 {
-  font-family: "Inter Tight";
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin: 0 0 0.3rem;
-  color: var(--color-text);
-}
-
-.team-role {
-  font-size: 0.9rem;
-  color: var(--color-accent);
-  margin: 0 0 1rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.team-bio {
-  font-size: 0.95rem;
-  color: var(--color-text-muted);
-  line-height: 1.6;
-  margin: 0 0 1.5rem;
-}
-
-.team-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(60, 130, 246, 0.2);
-}
-
-.team-stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.team-stat-item .stat-value {
-  font-family: "Inter Tight";
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--color-accent);
-  line-height: 1;
-}
-
-.team-stat-item .stat-label {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  text-align: center;
-}
-
-.team-cta {
-  text-align: center;
-  padding: 3rem;
-  background: rgba(11, 17, 32, 0.4);
-  border: 1px solid rgba(60, 130, 246, 0.2);
-  border-radius: 24px;
-}
-
-.team-cta p {
-  font-size: 1.1rem;
-  color: var(--color-text);
-  margin: 0 0 1.5rem;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .about-cards-grid,
-  .team-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .values-grid-modern {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .values-grid-modern {
-    grid-template-columns: 1fr;
-  }
-  
-  .dashboard-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-}
-
-/* ANALYZE CARDS HOVER EFFECT */
-.analyze-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(60, 130, 246, 0.6) !important;
-  box-shadow: 0 10px 30px rgba(60, 130, 246, 0.2);
-}
-
-@media screen and (max-width: 768px) {
-  .analyze-grid {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-
-  .service-flex-container {
-    flex-direction: column !important;
-    gap: 2rem !important;
-  }
-
-  .service-flex-container > div p[style*="font-size: 1.1rem;"]{
-    min-width: 100% !important;
-    flex: none !important;
-  }
-
-  .service-main-card {
-    grid-column: span 1 !important;
-  }
-
-  .service-cards-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .container {
-    padding: 0 1rem;
-  }
-
-  .stack-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .hero-inner {
-    gap: 2rem;
-  }
-
-  .hero-visual {
-    padding: 1.5rem;
-  }
-
-  .outcome-card,
-  .stack-card,
-  .faq-item,
-  .about-feature-card {
-    padding: 1.5rem;
-  }
-  
-  body {
-    font-size: 18px;
-  }
-
-  .desktop-sidebar {
-    display: none; 
-  }
-}
-  
-  </style>
+  <link rel="stylesheet" href="remify.css">
 </head>
 <body>
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="container nav-container">
-      <a href="#hero" class="brand">
-        <img src="remify.jpg" alt="Remify Logo" class="brand-logo">
-        <span class="brand-name">Remify</span>
-      </a>
-      <nav class="main-nav">
-        <a href="#outcomes">Results</a>
-        <a href="#services">Services</a>
-        <a href="#stack">Stack</a>
-        <a href="#process">Process</a>
-        <a href="#cta" class="nav-cta">Book Strategy Call</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <div class="container hero-inner">
-      <div class="hero-copy">
-        <span class="hero-eyebrow">⚡ Autonomous Operations Studio</span>
-        
-        <h1 class="hero-title">
-          Autonomous Operations that Delivers
-          <span id="typewriter-text" class="typewriter-word">Freedom and Scale</span><span class="typing-cursor"></span>
-        </h1>
-
-        <p class="hero-subtitle">
-          Stop wasting 520+ hours every week on manual tasks. By integrating <strong>workflows</strong>, <strong>RPA bots</strong>, and <strong>AI agents.</strong> Remify creates intelligent systems that let your team concentrate on growth rather than tedious tasks.
-
-      
-
-        <div class="hero-actions">
-          <a href="https://calendly.com/admin-remifyautomations/30min" target="_blank" class="btn btn-primary">
-            Book a Strategy Call →
-          </a>
-          <button class="btn btn-secondary" onclick="document.getElementById('outcomes').scrollIntoView({behavior:'smooth'})">
-            See Client Results
-          </button>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="#hero" class="brand">
+                <img src="remify.jpg" alt="Remify Logo" class="brand-logo">
+                <span class="brand-name">Remify</span>
+            </a>
+            <nav class="main-nav">
+                <a href="#outcomes">Results</a>
+                <a href="#services">Services</a>
+                <a href="#stack">Stack</a>
+                <a href="#process">Process</a>
+                <a href="#cta" class="nav-cta">Book Strategy Call</a>
+            </nav>
         </div>
-      </div>
+    </header>
 
-      <div class="hero-visual">
-        <p class="proof-header">Real Client Outcomes</p>
-        <div class="proof-metrics">
-          <div class="proof-metric">
-            <div class="proof-icon">📊</div>
-            <div class="proof-content">
-              <h4>20 hrs/week</h4>
-              <p>Per team member freed up</p>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container hero-inner">
+            <div class="hero-copy">
+                <span class="hero-eyebrow">⚡ Autonomous Operations Studio</span>
+
+                <h1 class="hero-title">
+                    Autonomous Operations that Delivers
+                    <span id="typewriter-text" class="typewriter-word">Freedom and Scale</span><span class="typing-cursor"></span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Stop wasting 520+ hours every week on manual tasks. By integrating <strong>workflows</strong>, <strong>RPA bots</strong>, and <strong>AI agents.</strong> Remify creates intelligent systems that let your team concentrate on growth rather than tedious tasks.
+
+
+
+                    <div class="hero-actions">
+                        <a href="https://calendly.com/admin-remifyautomations/30min" target="_blank" class="btn btn-primary">
+                            Book a Strategy Call →
+                        </a>
+                        <button class="btn btn-secondary" onclick="document.getElementById('outcomes').scrollIntoView({behavior:'smooth'})">
+                            See Client Results
+                        </button>
+                    </div>
             </div>
-          </div>
-          <div class="proof-metric">
-            <div class="proof-icon">🎯</div>
-            <div class="proof-content">
-              <h4>Zero missed leads</h4>
-              <p>100% capture & routing accuracy</p>
-            </div>
-          </div>
-          <div class="proof-metric">
-            <div class="proof-icon">⚡</div>
-            <div class="proof-content">
-              <h4>2-hour response</h4>
-              <p>Down from 24+ hours average</p>
-            </div>
-          </div>
-          <div class="proof-metric">
-            <div class="proof-icon">💰</div>
-            <div class="proof-content">
-              <h4>$45k+ saved</h4>
-              <p>Annual operational cost reduction</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- SOCIAL PROOF STATS -->
-  <section class="social-proof">
-    <div class="container">
-      <div class="proof-stats">
-        <div class="proof-stat">
-          <h3 class="proof-stat-value" data-unit="time">520+</h3>
-          <p>Hours saved weekly for clients</p>
-        </div>
-        <div class="proof-stat">
-          <h3 class="proof-stat-value" data-unit="time">30+</h3>
-          <p>Automation systems deployed</p>
-        </div>
-        <div class="proof-stat">
-          <h3 class="proof-stat-value" data-unit="percentage">95%</h3>
-          <p>Average error reduction</p>
-        </div>
-        <div class="proof-stat">
-          <h3 class="proof-stat-value" data-unit="currency">$2.1M+</h3>
-          <p>In operational costs saved</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- OUTCOMES -->
-  <section class="section" id="outcomes">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-kicker">Client Outcomes</p>
-        <h2 class="section-title">What Changes After You Remify</h2>
-        <p class="section-subtitle">
-          Real results from agencies, SaaS companies, and service businesses that deployed autonomous operations
-        </p>
-      </div>
-
-      <div class="outcomes-grid">
-        <div class="outcome-card">
-          <div class="outcome-icon">⏱️</div>
-          <h3>Time Freedom</h3>
-          <span class="outcome-value">5-20 hrs</span>
-          <p>Per person per week freed up from manual data entry and routine tasks</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">🎯</div>
-          <h3>Zero Drop-offs</h3>
-          <span class="outcome-value">100%</span>
-          <p>Lead capture rate — nothing falls through the cracks anymore</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">📈</div>
-          <h3>Response Speed</h3>
-          <span class="outcome-value">85%</span>
-          <p>Faster response times with automated triage and routing</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">✅</div>
-          <h3>Accuracy</h3>
-          <span class="outcome-value">95%</span>
-          <p>Error reduction in data handling and document processing</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">🚀</div>
-          <h3>Onboarding</h3>
-          <span class="outcome-value">3x</span>
-          <p>Faster client onboarding with automated workflows</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">💰</div>
-          <h3>Cost Savings</h3>
-          <span class="outcome-value">$45k+</span>
-          <p>Annual savings per team from reduced manual operations</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">🔄</div>
-          <h3>Consistency</h3>
-          <span class="outcome-value">24/7</span>
-          <p>Always-on operations with zero fatigue or human error</p>
-        </div>
-
-        <div class="outcome-card">
-          <div class="outcome-icon">📊</div>
-          <h3>Visibility</h3>
-          <span class="outcome-value">Real-time</span>
-          <p>Complete oversight of all processes with dashboards and alerts</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STACK -->
-  <section class="section" id="stack">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-kicker">The Remify Stack</p>
-        <h2 class="section-title">Three Engines, One Autonomous System</h2>
-        <p class="section-subtitle">
-          We integrate workflows, robotics, and AI intelligence into a seamless operating system for your business
-        </p>
-      </div>
-
-      <div class="stack-grid">
-        <div class="stack-card">
-          <h3>Workflow Engine</h3>
-          <p>
-            The easy stuff. We make real time, event-based connections for your modern apps. If there's an API, we make it speak to the rest of your application ecosystem in no time.
-          </p>
-          <ul>
-            <li>Live data sharing</li>
-            <li>Smart lead routing</li>
-            <li>Cross-app events</li>
-            <li>No lag in takeovers</li>
-          </ul>
-        </div>
-
-        <div class="stack-card">
-          <h3>RPA Robotics</h3>
-          <p>
-            For those applications that don't wanna play. We create bots that operate within the applications that don't have APIs; logging in, clicking buttons and more without your team doing a thing.
-          </p>
-          <ul>
-            <li>Login-in action for web apps</li>
-            <li>Mass form submissions</li>
-            <li>Data retrieval from legacy UIs</li>
-            <li>Bridging the API gap</li>
-          </ul>
-        </div>
-
-        <div class="stack-card">
-          <h3>MCP</h3>
-          <p>
-             Think of MCP as a USB-C port for AI. Instead of building unique "cables" to connect your AI to every tool (like Slack or GitHub), MCP provides a single, universal standard. This lets any AI model plug into your data instantly, replacing messy custom integrations with a simple, secure connection.
-          </p>
-          <ul>
-            <li>Decisions based on context</li>
-            <li>Standardized access</li>
-            <li>Secure communications between agent and system</li>
-            <li>No hallucinations, just data</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- PROCESS TIMELINE -->
-  <section class="section" id="process">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-kicker">How We Work</p>
-        <h2 class="section-title">A Simple, Engineering-Grade Process</h2>
-        <p class="section-subtitle">
-          From audit to autopilot. We strip away the complexity with a clear path to autonomy.
-        </p>
-      </div>
-
-      <div class="process-wrapper">
-        <!-- The Central Glowing Bar -->
-        <div class="process-line"></div>
-
-        <!-- Step 01 -->
-        <div class="process-step">
-          <div class="process-node">01</div>
-          <div class="process-content">
-            <h3>Deep Discovery</h3>
-            <p>
-              We audit your current tools and workflows to map exactly where time, money, and accuracy are leaking.
-            </p>
-          </div>
-        </div>
-
-        <!-- Step 02 -->
-        <div class="process-step">
-          <div class="process-node">02</div>
-          <div class="process-content">
-            <h3>Architecture Design</h3>
-            <p>
-              We design a custom ops system combining workflows, RPA, and AI agents tailored to your specific stack.
-            </p>
-          </div>
-        </div>
-
-        <!-- Step 03 -->
-        <div class="process-step">
-          <div class="process-node">03</div>
-          <div class="process-content">
-            <h3>Build & Deploy</h3>
-            <p>
-              We implement, test, and harden your automations with monitoring, logging, and error fallbacks.
-            </p>
-          </div>
-        </div>
-
-        <!-- Step 04 -->
-        <div class="process-step">
-          <div class="process-node">04</div>
-          <div class="process-content">
-            <h3>Iterate & Scale</h3>
-            <p>
-              As your business grows, we adjust flows and train new AI behaviors to match your evolving playbook.
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="services">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-kicker">Our Offerings</p>
-        <h2 class="section-title">Engineering Your Escape from Busywork</h2>
-        <p class="section-subtitle">
-          We don't just "zap" things together. We engineer resilient, enterprise-grade operating systems for your business.
-        </p>
-      </div>
-
-      <div class="stack-grid" style="margin-bottom: 4rem;"> 
-        <div class="stack-card service-main-card" style="grid-column: span 3;"> 
-          <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;" class="service-flex-container">
-                <div style="flex: 1; min-width: 300px;">
-    <div class="outcome-icon">🔍</div> 
-    <h3>01. The Operations Audit & Blueprint</h3>
-    <p>
-        Before we write a single line of code, we map your entire business logic. We identify bottlenecks, calculate the ROI of automation, and deliver a full architectural blueprint.
-    </p>
-    <ul>
-        <li>Full workflow discovery & process mapping</li>
-        <li>Tech stack compatibility analysis</li>
-        <li>ROI calculation & implementation roadmap</li>
-        <li><strong>Deliverable:</strong> A complete PDF Engineering Blueprint</li>
-    </ul>
-    <br>
-    <a href="#cta" class="btn btn-secondary">Get Your Blueprint</a>
-</div>
-
-<div style="flex: 1;">
-    <p style="font-family: 'Inter Tight'; font-weight: 700; color: var(--color-accent); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">What we analyze:</p>
-    
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" class="analyze-grid">
-        
-        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.5rem;">📝</span>
-                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Manual Data Entry</h4>
-            </div>
-            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Hours wasted copying information between systems</p>
-        </div>
-
-        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.5rem;">💧</span>
-                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Lead Leakage</h4>
-            </div>
-            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Prospects falling through unmonitored channels</p>
-        </div>
-
-        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.5rem;">🔌</span>
-                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">API Gaps</h4>
-            </div>
-            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Legacy systems that don't talk to each other</p>
-        </div>
-
-        <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
-            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <span style="font-size: 1.5rem;">🔀</span>
-                <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Fragmented Tools</h4>
-            </div>
-            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Disconnected workflows creating chaos</p>
-        </div>
-
-    </div>
-</div>
+            <div class="hero-visual">
+                <p class="proof-header">Real Client Outcomes</p>
+                <div class="proof-metrics">
+                    <div class="proof-metric">
+                        <div class="proof-icon">📊</div>
+                        <div class="proof-content">
+                            <h4>20 hrs/week</h4>
+                            <p>Per team member freed up</p>
+                        </div>
+                    </div>
+                    <div class="proof-metric">
+                        <div class="proof-icon">🎯</div>
+                        <div class="proof-content">
+                            <h4>Zero missed leads</h4>
+                            <p>100% capture & routing accuracy</p>
+                        </div>
+                    </div>
+                    <div class="proof-metric">
+                        <div class="proof-icon">⚡</div>
+                        <div class="proof-content">
+                            <h4>2-hour response</h4>
+                            <p>Down from 24+ hours average</p>
+                        </div>
+                    </div>
+                    <div class="proof-metric">
+                        <div class="proof-icon">💰</div>
+                        <div class="proof-content">
+                            <h4>$45k+ saved</h4>
+                            <p>Annual operational cost reduction</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-      </div>
+    </section>
 
-      <div class="faq-grid service-cards-grid" style="max-width: 100%; grid-template-columns: repeat(2, 1fr);">
-        
-        <div class="stack-card">
-            <div class="outcome-icon">⚙️</div>
-            <h3>02. Autonomous System Build</h3>
-            <p>
-                We build the infrastructure that runs your business. Using deep API integrations and RPA for legacy systems, we connect your isolated tools into one fluid ecosystem.
-            </p>
-            <div style="margin-top: 1.5rem;">
-                <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Common Builds:</h4>
-                <ul>
-                    <li>Automated Client Onboarding Flows</li>
-                    <li>Finance & Invoice Reconciliation</li>
-                    <li>CRM Sync & Lead Routing</li>
-                    <li>Legacy System RPA Bridging</li>
-                </ul>
+    <!-- SOCIAL PROOF STATS -->
+    <section class="social-proof">
+        <div class="container">
+            <div class="proof-stats">
+                <div class="proof-stat">
+                    <h3 class="proof-stat-value" data-unit="time">520+</h3>
+                    <p>Hours saved weekly for clients</p>
+                </div>
+                <div class="proof-stat">
+                    <h3 class="proof-stat-value" data-unit="time">30+</h3>
+                    <p>Automation systems deployed</p>
+                </div>
+                <div class="proof-stat">
+                    <h3 class="proof-stat-value" data-unit="percentage">95%</h3>
+                    <p>Average error reduction</p>
+                </div>
+                <div class="proof-stat">
+                    <h3 class="proof-stat-value" data-unit="currency">$2.1M+</h3>
+                    <p>In operational costs saved</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="stack-card">
-            <div class="outcome-icon">🧠</div>
-            <h3>03. MCP Agent Deployment</h3>
-            <p>
-                Move beyond simple "if-this-then-that" logic. We deploy intelligent AI agents using the <strong>Model Context Protocol</strong> that can reason, make decisions, and execute complex tasks.
-            </p>
-            <div style="margin-top: 1.5rem;">
-                <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Agent Capabilities:</h4>
-                <ul>
-                    <li>Intelligent Customer Support Triage</li>
-                    <li>Context-aware Document Analysis</li>
-                    <li>Autonomous Research & Reporting</li>
-                    <li>Human-in-the-loop decision making</li>
-                </ul>
+
+    <!-- OUTCOMES -->
+    <section class="section" id="outcomes">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">Client Outcomes</p>
+                <h2 class="section-title">What Changes After You Remify</h2>
+                <p class="section-subtitle">
+                    Real results from agencies, SaaS companies, and service businesses that deployed autonomous operations
+                </p>
+            </div>
+
+            <div class="outcomes-grid">
+                <div class="outcome-card">
+                    <div class="outcome-icon">⏱️</div>
+                    <h3>Time Freedom</h3>
+                    <span class="outcome-value">5-20 hrs</span>
+                    <p>Per person per week freed up from manual data entry and routine tasks</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">🎯</div>
+                    <h3>Zero Drop-offs</h3>
+                    <span class="outcome-value">100%</span>
+                    <p>Lead capture rate — nothing falls through the cracks anymore</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">📈</div>
+                    <h3>Response Speed</h3>
+                    <span class="outcome-value">85%</span>
+                    <p>Faster response times with automated triage and routing</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">✅</div>
+                    <h3>Accuracy</h3>
+                    <span class="outcome-value">95%</span>
+                    <p>Error reduction in data handling and document processing</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">🚀</div>
+                    <h3>Onboarding</h3>
+                    <span class="outcome-value">3x</span>
+                    <p>Faster client onboarding with automated workflows</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">💰</div>
+                    <h3>Cost Savings</h3>
+                    <span class="outcome-value">$45k+</span>
+                    <p>Annual savings per team from reduced manual operations</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">🔄</div>
+                    <h3>Consistency</h3>
+                    <span class="outcome-value">24/7</span>
+                    <p>Always-on operations with zero fatigue or human error</p>
+                </div>
+
+                <div class="outcome-card">
+                    <div class="outcome-icon">📊</div>
+                    <h3>Visibility</h3>
+                    <span class="outcome-value">Real-time</span>
+                    <p>Complete oversight of all processes with dashboards and alerts</p>
+                </div>
             </div>
         </div>
+    </section>
 
-      </div>
-
-      <div class="cta-section" style="margin-top: 4rem; padding: 3rem; background: linear-gradient(135deg, rgba(11, 17, 32, 0.9), rgba(5, 8, 22, 0.9));">
-        <div style="max-width: 800px; margin: 0 auto;">
-            <p class="section-kicker" style="margin-bottom: 1rem;">Recurring Assurance</p>
-            <h3 style="font-family: 'Inter Tight'; font-size: 1.8rem; margin-bottom: 1rem;">04. Managed Autonomy (MaaS)</h3>
-            <p style="margin-bottom: 2rem;">
-                APIs change. Tokens expire. Businesses evolve. We provide 24/7 monitoring and maintenance to ensure your autonomous operations never go offline.
-            </p>
-            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
-                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> 99.9% Uptime Monitoring</span>
-                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Error Handling & Recovery</span>
-                <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Monthly Optimization Sprints</span>
+    <!-- STACK -->
+    <section class="section" id="stack">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">The Remify Stack</p>
+                <h2 class="section-title">Three Engines, One Autonomous System</h2>
+                <p class="section-subtitle">
+                    We integrate workflows, robotics, and AI intelligence into a seamless operating system for your business
+                </p>
             </div>
-            <a href="#cta" class="btn btn-primary">Discuss Maintenance Plans</a>
-        </div>
-      </div>
 
-    </div>
-  </section>
+            <div class="stack-grid">
+                <div class="stack-card">
+                    <h3>Workflow Engine</h3>
+                    <p>
+                        The easy stuff. We make real time, event-based connections for your modern apps. If there's an API, we make it speak to the rest of your application ecosystem in no time.
+                    </p>
+                    <ul>
+                        <li>Live data sharing</li>
+                        <li>Smart lead routing</li>
+                        <li>Cross-app events</li>
+                        <li>No lag in takeovers</li>
+                    </ul>
+                </div>
 
-  <!-- FAQ SECTION -->
-<section class="section faq" id="faq">
-  <div class="container">
-    <div class="section-header">
-      <p class="section-kicker">Questions Answered</p>
-      <h2 class="section-title">Everything You Need to Know</h2>
-    </div>
+                <div class="stack-card">
+                    <h3>RPA Robotics</h3>
+                    <p>
+                        For those applications that don't wanna play. We create bots that operate within the applications that don't have APIs; logging in, clicking buttons and more without your team doing a thing.
+                    </p>
+                    <ul>
+                        <li>Login-in action for web apps</li>
+                        <li>Mass form submissions</li>
+                        <li>Data retrieval from legacy UIs</li>
+                        <li>Bridging the API gap</li>
+                    </ul>
+                </div>
 
-    <div class="faq-grid">
-      
-      <div class="faq-item">
-        <h3 class="faq-question">How long does implementation take?</h3>
-        <p class="faq-answer">Most clients see their first automations live within 1-2 weeks. Complex enterprise systems may take 2-4 weeks for full deployment.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3 class="faq-question">Do I need technical knowledge?</h3>
-        <p class="faq-answer">Not at all. We handle everything from architecture to deployment. You just tell us your workflow, we make it autonomous.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3 class="faq-question">What if something breaks?</h3>
-        <p class="faq-answer">All systems include monitoring, error fallbacks, and alerts. If an automation fails, you're notified instantly and we fix it fast.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3 class="faq-question">Can you work with our existing tools?</h3>
-        <p class="faq-answer">Yes. We integrate with 1,000+ apps via API, and use RPA for systems without APIs. If your team uses it, we can automate it.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3 class="faq-question">What's the ROI timeline?</h3>
-        <p class="faq-answer">Most clients break even in 3-6 months from time savings alone. When you factor in accuracy gains and faster response times, ROI accelerates significantly.</p>
-      </div>
-
-      <div class="faq-item">
-        <h3 class="faq-question">Is my data secure?</h3>
-        <p class="faq-answer">Absolutely. We follow SOC 2 standards, use encrypted connections, and never store sensitive data. Your systems stay under your control.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- PARTNERS TAPE (Seamless) -->
-  <section class="section partners">
-    <p class="partners-label">Trusted Partners</p>
-    
-    <div class="partners-track">
-      
-      <!-- === SET 1 (Originals) === -->
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <!-- === SET 2 (Exact Duplicates for the Loop) === -->
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-      
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-      <a href="https://varroxsystems.com" target="_blank" class="partner-item">
-        <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
-      </a>
-
-    </div>
-  </section>
-
-<!-- TESTIMONIALS
-  <section class="section testimonials" id="testimonials">
-    <div class="container">
-      <div class="section-header">
-        <p class="section-kicker">Success Stories</p>
-        <h2 class="section-title">Don't just take our word for it.</h2>
-      </div>
-
-      <div class="testimonials-grid">
-        
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"We were drowning in manual data entry. Remify built a system that handles 90% of our intake automatically. It felt like magic."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">JS</div>
-            <div class="author-info">
-              <h4>Jason Statham</h4>
-              <p>CEO, GrowthAgency</p>
+                <div class="stack-card">
+                    <h3>MCP</h3>
+                    <p>
+                        Think of MCP as a USB-C port for AI. Instead of building unique "cables" to connect your AI to every tool (like Slack or GitHub), MCP provides a single, universal standard. This lets any AI model plug into your data instantly, replacing messy custom integrations with a simple, secure connection.
+                    </p>
+                    <ul>
+                        <li>Decisions based on context</li>
+                        <li>Standardized access</li>
+                        <li>Secure communications between agent and system</li>
+                        <li>No hallucinations, just data</li>
+                    </ul>
+                </div>
             </div>
-          </div>
         </div>
+    </section>
 
-        
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"The ROI was immediate. We saved 40 hours/week in the first month alone. The team can finally focus on strategy instead of admin."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">AL</div>
-            <div class="author-info">
-              <h4>Sarah Lin</h4>
-              <p>Ops Director, FinTech Co</p>
+    <!-- PROCESS TIMELINE -->
+    <section class="section" id="process">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">How We Work</p>
+                <h2 class="section-title">A Simple, Engineering-Grade Process</h2>
+                <p class="section-subtitle">
+                    From audit to autopilot. We strip away the complexity with a clear path to autonomy.
+                </p>
             </div>
-          </div>
-        </div>
 
-        
-        <div class="testimonial-card">
-          <div class="testimonial-stars">★★★★★</div>
-          <p class="testimonial-text">"I was skeptical about 'autonomous operations' but the bots Remify deployed are flawless. They work 24/7 without a single error."</p>
-          <div class="testimonial-author">
-            <div class="author-avatar">MK</div>
-            <div class="author-info">
-              <h4>Mike Kroski</h4>
-              <p>Founder, ScaleUp</p>
+            <div class="process-wrapper">
+                <!-- The Central Glowing Bar -->
+                <div class="process-line"></div>
+
+                <!-- Step 01 -->
+                <div class="process-step">
+                    <div class="process-node">01</div>
+                    <div class="process-content">
+                        <h3>Deep Discovery</h3>
+                        <p>
+                            We audit your current tools and workflows to map exactly where time, money, and accuracy are leaking.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 02 -->
+                <div class="process-step">
+                    <div class="process-node">02</div>
+                    <div class="process-content">
+                        <h3>Architecture Design</h3>
+                        <p>
+                            We design a custom ops system combining workflows, RPA, and AI agents tailored to your specific stack.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 03 -->
+                <div class="process-step">
+                    <div class="process-node">03</div>
+                    <div class="process-content">
+                        <h3>Build & Deploy</h3>
+                        <p>
+                            We implement, test, and harden your automations with monitoring, logging, and error fallbacks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Step 04 -->
+                <div class="process-step">
+                    <div class="process-node">04</div>
+                    <div class="process-content">
+                        <h3>Iterate & Scale</h3>
+                        <p>
+                            As your business grows, we adjust flows and train new AI behaviors to match your evolving playbook.
+                        </p>
+                    </div>
+                </div>
+
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </section> -->
+    </section>
 
-<!-- ABOUT US SECTION - FUTURISTIC CARDS -->
-<section class="section about-us" id="about">
-  <div class="container">
-    <div class="section-header">
-      <p class="section-kicker">Who We Are</p>
-      <h2 class="section-title">Your Autonomous Operations Partner</h2>
-      <p class="section-subtitle">
-        We're engineers who believe your team deserves better than manual busywork
-      </p>
-    </div>
-
-    <!-- Main About Grid - 3D Card Layout -->
-    <div class="about-cards-grid">
-      
-      <!-- Card 1: Story -->
-      <div class="about-feature-card">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="feature-header">
-            <div class="feature-icon-wrapper">
-              <span class="feature-icon">🎯</span>
+    <section class="section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">Our Offerings</p>
+                <h2 class="section-title">Engineering Your Escape from Busywork</h2>
+                <p class="section-subtitle">
+                    We don't just "zap" things together. We engineer resilient, enterprise-grade operating systems for your business.
+                </p>
             </div>
-            <h3>Our Story</h3>
-          </div>
-          <p class="feature-description">
-            Born from frustration. We watched talented teams waste hours on repetitive tasks, copying data, chasing leads, updating five different systems. There had to be a better way.
-          </p>
-          <p class="feature-description">
-            So we built Remify: giving every business what only enterprises had, autonomous operations that work 24/7, never drop the ball, and scale without hiring.
-          </p>
-          <div class="feature-stat">
-            <span class="stat-number">2025</span>
-            <span class="stat-label">Founded</span>
-          </div>
-        </div>
-      </div>
 
-      <!-- Card 2: Mission -->
-      <div class="about-feature-card">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="feature-header">
-            <div class="feature-icon-wrapper">
-              <span class="feature-icon">⚡</span>
+            <div class="stack-grid" style="margin-bottom: 4rem;">
+                <div class="stack-card service-main-card" style="grid-column: span 3;">
+                    <div style="display: flex; gap: 2rem; align-items: flex-start; flex-wrap: wrap;" class="service-flex-container">
+                        <div style="flex: 1; min-width: 300px;">
+                            <div class="outcome-icon">🔍</div>
+                            <h3>01. The Operations Audit & Blueprint</h3>
+                            <p>
+                                Before we write a single line of code, we map your entire business logic. We identify bottlenecks, calculate the ROI of automation, and deliver a full architectural blueprint.
+                            </p>
+                            <ul>
+                                <li>Full workflow discovery & process mapping</li>
+                                <li>Tech stack compatibility analysis</li>
+                                <li>ROI calculation & implementation roadmap</li>
+                                <li><strong>Deliverable:</strong> A complete PDF Engineering Blueprint</li>
+                            </ul>
+                            <br>
+                            <a href="#cta" class="btn btn-secondary">Get Your Blueprint</a>
+                        </div>
+
+                        <div style="flex: 1;">
+                            <p style="font-family: 'Inter Tight'; font-weight: 700; color: var(--color-accent); margin-top: 0; margin-bottom: 1.5rem; font-size: 1.1rem;">What we analyze:</p>
+
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;" class="analyze-grid">
+
+                                <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                        <span style="font-size: 1.5rem;">📝</span>
+                                        <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Manual Data Entry</h4>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Hours wasted copying information between systems</p>
+                                </div>
+
+                                <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                        <span style="font-size: 1.5rem;">💧</span>
+                                        <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Lead Leakage</h4>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Prospects falling through unmonitored channels</p>
+                                </div>
+
+                                <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                        <span style="font-size: 1.5rem;">🔌</span>
+                                        <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">API Gaps</h4>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Legacy systems that don't talk to each other</p>
+                                </div>
+
+                                <div style="background: rgba(11, 17, 32, 0.8); padding: 1.5rem; border-radius: 16px; border: 1px solid rgba(60, 130, 246, 0.3); transition: all 0.3s ease;" class="analyze-card">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+                                        <span style="font-size: 1.5rem;">🔀</span>
+                                        <h4 style="margin: 0; font-family: 'Inter Tight'; font-size: 1.1rem; color: #e5e7eb;">Fragmented Tools</h4>
+                                    </div>
+                                    <p style="margin: 0; font-size: 0.9rem; color: #9ca3af; padding-left: 2.25rem;">Disconnected workflows creating chaos</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h3>Our Mission</h3>
-          </div>
-          <p class="feature-description">
-            Make autonomous operations accessible to every growing business, and not just Fortune 500 companies with massive IT budgets.
-          </p>
-          <p class="feature-description">
-            Your team should spend time on strategy and growth, not clicking through 47 steps to onboard a client or manually syncing systems.
-          </p>
-          
-        </div>
-      </div>
 
-      <!-- Card 3: Approach -->
-      <div class="about-feature-card">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="feature-header">
-            <div class="feature-icon-wrapper">
-              <span class="feature-icon">🔧</span>
+            <div class="faq-grid service-cards-grid" style="max-width: 100%; grid-template-columns: repeat(2, 1fr);">
+
+                <div class="stack-card">
+                    <div class="outcome-icon">⚙️</div>
+                    <h3>02. Autonomous System Build</h3>
+                    <p>
+                        We build the infrastructure that runs your business. Using deep API integrations and RPA for legacy systems, we connect your isolated tools into one fluid ecosystem.
+                    </p>
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Common Builds:</h4>
+                        <ul>
+                            <li>Automated Client Onboarding Flows</li>
+                            <li>Finance & Invoice Reconciliation</li>
+                            <li>CRM Sync & Lead Routing</li>
+                            <li>Legacy System RPA Bridging</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="stack-card">
+                    <div class="outcome-icon">🧠</div>
+                    <h3>03. MCP Agent Deployment</h3>
+                    <p>
+                        Move beyond simple "if-this-then-that" logic. We deploy intelligent AI agents using the <strong>Model Context Protocol</strong> that can reason, make decisions, and execute complex tasks.
+                    </p>
+                    <div style="margin-top: 1.5rem;">
+                        <h4 style="font-size: 0.95rem; color: var(--color-text); margin-bottom: 0.5rem;">Agent Capabilities:</h4>
+                        <ul>
+                            <li>Intelligent Customer Support Triage</li>
+                            <li>Context-aware Document Analysis</li>
+                            <li>Autonomous Research & Reporting</li>
+                            <li>Human-in-the-loop decision making</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-            <h3>Our Approach</h3>
-          </div>
-          <p class="feature-description">
-            We don't sell software. We build custom autonomous operations tailored to exactly how your business works today.
-          </p>
-          <p class="feature-description">
-            Using workflows, RPA bots, and AI agents, we create intelligent systems that handle repetitive work so you can focus on what moves the needle.
-          </p>
-          <div class="feature-stat">
-            <span class="stat-number">100%</span>
-            <span class="stat-label">Custom Built</span>
-          </div>
+
+            <div class="cta-section" style="margin-top: 4rem; padding: 3rem; background: linear-gradient(135deg, rgba(11, 17, 32, 0.9), rgba(5, 8, 22, 0.9));">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <p class="section-kicker" style="margin-bottom: 1rem;">Recurring Assurance</p>
+                    <h3 style="font-family: 'Inter Tight'; font-size: 1.8rem; margin-bottom: 1rem;">04. Managed Autonomy (MaaS)</h3>
+                    <p style="margin-bottom: 2rem;">
+                        APIs change. Tokens expire. Businesses evolve. We provide 24/7 monitoring and maintenance to ensure your autonomous operations never go offline.
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 2rem;">
+                        <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> 99.9% Uptime Monitoring</span>
+                        <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Error Handling & Recovery</span>
+                        <span style="display: flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted);"><span style="color: var(--color-accent);">✓</span> Monthly Optimization Sprints</span>
+                    </div>
+                    <a href="#cta" class="btn btn-primary">Discuss Maintenance Plans</a>
+                </div>
+            </div>
+
         </div>
-      </div>
+    </section>
 
-    </div>
+    <!-- FAQ SECTION -->
+    <section class="section faq" id="faq">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">Questions Answered</p>
+                <h2 class="section-title">Everything You Need to Know</h2>
+            </div>
 
-    <!-- Values Section - Dashboard Style -->
-    <div class="values-dashboard">
-      <div class="dashboard-header">
-        <h3>What Drives Us</h3>
-        <div class="dashboard-indicator">
-          <span class="indicator-dot"></span>
-          <span class="indicator-text">Live</span>
+            <div class="faq-grid">
+
+                <div class="faq-item">
+                    <h3 class="faq-question">How long does implementation take?</h3>
+                    <p class="faq-answer">Most clients see their first automations live within 1-2 weeks. Complex enterprise systems may take 2-4 weeks for full deployment.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">Do I need technical knowledge?</h3>
+                    <p class="faq-answer">Not at all. We handle everything from architecture to deployment. You just tell us your workflow, we make it autonomous.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">What if something breaks?</h3>
+                    <p class="faq-answer">All systems include monitoring, error fallbacks, and alerts. If an automation fails, you're notified instantly and we fix it fast.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">Can you work with our existing tools?</h3>
+                    <p class="faq-answer">Yes. We integrate with 1,000+ apps via API, and use RPA for systems without APIs. If your team uses it, we can automate it.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">What's the ROI timeline?</h3>
+                    <p class="faq-answer">Most clients break even in 3-6 months from time savings alone. When you factor in accuracy gains and faster response times, ROI accelerates significantly.</p>
+                </div>
+
+                <div class="faq-item">
+                    <h3 class="faq-question">Is my data secure?</h3>
+                    <p class="faq-answer">Absolutely. We follow SOC 2 standards, use encrypted connections, and never store sensitive data. Your systems stay under your control.</p>
+                </div>
+
+            </div>
         </div>
-      </div>
-      
-      <div class="values-grid-modern">
-        
-        <div class="value-card">
-          <div class="value-icon-circle">
-            <span>🎨</span>
-          </div>
-          <h4>Engineering Excellence</h4>
-          <p>Systems that work flawlessly, not just "good enough"</p>
-          <div class="value-progress">
-            <div class="progress-bar" style="width: 100%"></div>
-          </div>
+    </section>
+
+    <!-- PARTNERS TAPE (Seamless) -->
+    <section class="section partners">
+        <p class="partners-label">Trusted Partners</p>
+
+        <div class="partners-track">
+
+            <!-- === SET 1 (Originals) === -->
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <!-- === SET 2 (Exact Duplicates for the Loop) === -->
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
+            <a href="https://varroxsystems.com" target="_blank" class="partner-item">
+                <img src="VarroxLogo.png" alt="Varrox Systems" class="partner-img">
+            </a>
+
         </div>
+    </section>
 
-        <div class="value-card">
-          <div class="value-icon-circle">
-            <span>🤝</span>
+    <!-- TESTIMONIALS
+      <section class="section testimonials" id="testimonials">
+        <div class="container">
+          <div class="section-header">
+            <p class="section-kicker">Success Stories</p>
+            <h2 class="section-title">Don't just take our word for it.</h2>
           </div>
-          <h4>True Partnership</h4>
-          <p>Your ops are mission critical. We treat them that way</p>
-          <div class="value-progress">
-            <div class="progress-bar" style="width: 100%"></div>
-          </div>
-        </div>
 
-        <div class="value-card">
-          <div class="value-icon-circle">
-            <span>📊</span>
-          </div>
-          <h4>Results Over Hype</h4>
-          <p>Success = hours saved, errors eliminated, revenue protected</p>
-          <div class="value-progress">
-            <div class="progress-bar" style="width: 100%"></div>
-          </div>
-        </div>
+          <div class="testimonials-grid">
 
-        <div class="value-card">
-          <div class="value-icon-circle">
-            <span>🔒</span>
-          </div>
-          <h4>Security First</h4>
-          <p>SOC 2 standards. Your data stays yours, always</p>
-          <div class="value-progress">
-            <div class="progress-bar" style="width: 100%"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- TEAM SECTION - FUTURISTIC -->
-<section class="section team-section" id="team">
-  <div class="container">
-    <div class="section-header">
-      <p class="section-kicker">Meet The Team</p>
-      <h2 class="section-title">Built by Engineers, Operators & Dreamers</h2>
-      <p class="section-subtitle">
-        The minds behind the machines. We are a team of 5 obsessed with solving the manual work crisis.
-      </p>
-    </div>
-
-    <div class="team-grid">
-      
-      <!-- 1. Co-Founder -->
-      <div class="team-card">
-        <div class="team-card-inner">
-          <div class="team-info">
-            <h3>Mohannad Abdelrazek</h3>
-            <p class="team-role">Co-Founder</p>
-            <p class="team-bio">
-              The visionary behind the operation. Focuses on strategy and mapping the future of autonomous work.
-            </p>
-            <div class="team-stats">
-              <div class="team-stat-item">
-                <span class="stat-value">AI</span>
-                <span class="stat-label">Architecture</span>
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">"We were drowning in manual data entry. Remify built a system that handles 90% of our intake automatically. It felt like magic."</p>
+              <div class="testimonial-author">
+                <div class="author-avatar">JS</div>
+                <div class="author-info">
+                  <h4>Jason Statham</h4>
+                  <p>CEO, GrowthAgency</p>
+                </div>
               </div>
-              <div class="team-stat-item">
-                <span class="stat-value">3+</span>
-                <span class="stat-label">Years Exp</span>
+            </div>
+
+
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">"The ROI was immediate. We saved 40 hours/week in the first month alone. The team can finally focus on strategy instead of admin."</p>
+              <div class="testimonial-author">
+                <div class="author-avatar">AL</div>
+                <div class="author-info">
+                  <h4>Sarah Lin</h4>
+                  <p>Ops Director, FinTech Co</p>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="testimonial-card">
+              <div class="testimonial-stars">★★★★★</div>
+              <p class="testimonial-text">"I was skeptical about 'autonomous operations' but the bots Remify deployed are flawless. They work 24/7 without a single error."</p>
+              <div class="testimonial-author">
+                <div class="author-avatar">MK</div>
+                <div class="author-info">
+                  <h4>Mike Kroski</h4>
+                  <p>Founder, ScaleUp</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- 2. Co-Founder -->
-      <div class="team-card">
-        <div class="team-card-inner">
-          <div class="team-info">
-            <h3>Youssef Yasser </h3>
-            <p class="team-role">Co-Founder</p>
-            <p class="team-bio">
-              The architect of the systems. translating complex business logic into seamless, self-driving workflows.
-            </p>
-            <div class="team-stats">
-              <div class="team-stat-item">
-                <span class="stat-value">AI</span>
-                <span class="stat-label">Structure</span>
-              </div>
-              <div class="team-stat-item">
-                <span class="stat-value">100%</span>
-                <span class="stat-label">Execution</span>
-              </div>
+      </section> -->
+    <!-- ABOUT US SECTION - FUTURISTIC CARDS -->
+    <section class="section about-us" id="about">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">Who We Are</p>
+                <h2 class="section-title">Your Autonomous Operations Partner</h2>
+                <p class="section-subtitle">
+                    We're engineers who believe your team deserves better than manual busywork
+                </p>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- 3. Technical Partner -->
-      <div class="team-card">
-        <div class="team-card-inner">
-          <div class="team-info">
-            <h3>Belal Mohamed</h3>
-            <p class="team-role">Technical Partner</p>
-            <p class="team-bio">
-              Deep tech specialist ensuring our infrastructure is scalable, secure, and always ahead of the curve.
-            </p>
-            <div class="team-stats">
-              <div class="team-stat-item">
-                <span class="stat-value">Code</span>
-                <span class="stat-label">Infrastructure</span>
-              </div>
-              <div class="team-stat-item">
-                <span class="stat-value">99.9%</span>
-                <span class="stat-label">Uptime</span>
-              </div>
+            <!-- Main About Grid - 3D Card Layout -->
+            <div class="about-cards-grid">
+
+                <!-- Card 1: Story -->
+                <div class="about-feature-card">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-header">
+                            <div class="feature-icon-wrapper">
+                                <span class="feature-icon">🎯</span>
+                            </div>
+                            <h3>Our Story</h3>
+                        </div>
+                        <p class="feature-description">
+                            Born from frustration. We watched talented teams waste hours on repetitive tasks, copying data, chasing leads, updating five different systems. There had to be a better way.
+                        </p>
+                        <p class="feature-description">
+                            So we built Remify: giving every business what only enterprises had, autonomous operations that work 24/7, never drop the ball, and scale without hiring.
+                        </p>
+                        <div class="feature-stat">
+                            <span class="stat-number">2025</span>
+                            <span class="stat-label">Founded</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Mission -->
+                <div class="about-feature-card">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-header">
+                            <div class="feature-icon-wrapper">
+                                <span class="feature-icon">⚡</span>
+                            </div>
+                            <h3>Our Mission</h3>
+                        </div>
+                        <p class="feature-description">
+                            Make autonomous operations accessible to every growing business, and not just Fortune 500 companies with massive IT budgets.
+                        </p>
+                        <p class="feature-description">
+                            Your team should spend time on strategy and growth, not clicking through 47 steps to onboard a client or manually syncing systems.
+                        </p>
+
+                    </div>
+                </div>
+
+                <!-- Card 3: Approach -->
+                <div class="about-feature-card">
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-header">
+                            <div class="feature-icon-wrapper">
+                                <span class="feature-icon">🔧</span>
+                            </div>
+                            <h3>Our Approach</h3>
+                        </div>
+                        <p class="feature-description">
+                            We don't sell software. We build custom autonomous operations tailored to exactly how your business works today.
+                        </p>
+                        <p class="feature-description">
+                            Using workflows, RPA bots, and AI agents, we create intelligent systems that handle repetitive work so you can focus on what moves the needle.
+                        </p>
+                        <div class="feature-stat">
+                            <span class="stat-number">100%</span>
+                            <span class="stat-label">Custom Built</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- 4. Head of Marketing -->
-      <div class="team-card">
-        <div class="team-card-inner">
-          <div class="team-info">
-            <h3>Aasser Ihab</h3>
-            <p class="team-role">Head of Marketing</p>
-            <p class="team-bio">
-              Bridging the gap between complex tech and human stories. Telling the world how Remify changes lives.
-            </p>
-            <div class="team-stats">
-              <div class="team-stat-item">
-                <span class="stat-value">Growth</span>
-                <span class="stat-label">Brand Voice</span>
-              </div>
-              <div class="team-stat-item">
-                <span class="stat-value">Global</span>
-                <span class="stat-label">Reach</span>
-              </div>
+            <!-- Values Section - Dashboard Style -->
+            <div class="values-dashboard">
+                <div class="dashboard-header">
+                    <h3>What Drives Us</h3>
+                    <div class="dashboard-indicator">
+                        <span class="indicator-dot"></span>
+                        <span class="indicator-text">Live</span>
+                    </div>
+                </div>
+
+                <div class="values-grid-modern">
+
+                    <div class="value-card">
+                        <div class="value-icon-circle">
+                            <span>🎨</span>
+                        </div>
+                        <h4>Engineering Excellence</h4>
+                        <p>Systems that work flawlessly, not just "good enough"</p>
+                        <div class="value-progress">
+                            <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon-circle">
+                            <span>🤝</span>
+                        </div>
+                        <h4>True Partnership</h4>
+                        <p>Your ops are mission critical. We treat them that way</p>
+                        <div class="value-progress">
+                            <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon-circle">
+                            <span>📊</span>
+                        </div>
+                        <h4>Results Over Hype</h4>
+                        <p>Success = hours saved, errors eliminated, revenue protected</p>
+                        <div class="value-progress">
+                            <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="value-card">
+                        <div class="value-icon-circle">
+                            <span>🔒</span>
+                        </div>
+                        <h4>Security First</h4>
+                        <p>SOC 2 standards. Your data stays yours, always</p>
+                        <div class="value-progress">
+                            <div class="progress-bar" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- 5. Design Agent -->
-      <div class="team-card">
-        <div class="team-card-inner">
-          <div class="team-info">
-            <h3>Youssef Eltobgi</h3>
-            <p class="team-role">Design Agent</p>
-            <p class="team-bio">
-              Crafting the user experience. Ensuring that powerful automation feels simple, intuitive, and human.
-            </p>
-            <div class="team-stats">
-              <div class="team-stat-item">
-                <span class="stat-value">UI/UX</span>
-                <span class="stat-label">Interface</span>
-              </div>
-              <div class="team-stat-item">
-                <span class="stat-value">Pixel</span>
-                <span class="stat-label">Perfect</span>
-              </div>
+        </div>
+    </section>
+
+    <!-- TEAM SECTION - FUTURISTIC -->
+    <section class="section team-section" id="team">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-kicker">Meet The Team</p>
+                <h2 class="section-title">Built by Engineers, Operators & Dreamers</h2>
+                <p class="section-subtitle">
+                    The minds behind the machines. We are a team of 5 obsessed with solving the manual work crisis.
+                </p>
             </div>
-          </div>
+
+            <div class="team-grid">
+
+                <!-- 1. Co-Founder -->
+                <div class="team-card">
+                    <div class="team-card-inner">
+                        <div class="team-info">
+                            <h3>Mohannad Abdelrazek</h3>
+                            <p class="team-role">Co-Founder</p>
+                            <p class="team-bio">
+                                The visionary behind the operation. Focuses on strategy and mapping the future of autonomous work.
+                            </p>
+                            <div class="team-stats">
+                                <div class="team-stat-item">
+                                    <span class="stat-value">AI</span>
+                                    <span class="stat-label">Architecture</span>
+                                </div>
+                                <div class="team-stat-item">
+                                    <span class="stat-value">3+</span>
+                                    <span class="stat-label">Years Exp</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Co-Founder -->
+                <div class="team-card">
+                    <div class="team-card-inner">
+                        <div class="team-info">
+                            <h3>Youssef Yasser </h3>
+                            <p class="team-role">Co-Founder</p>
+                            <p class="team-bio">
+                                The architect of the systems. translating complex business logic into seamless, self-driving workflows.
+                            </p>
+                            <div class="team-stats">
+                                <div class="team-stat-item">
+                                    <span class="stat-value">AI</span>
+                                    <span class="stat-label">Structure</span>
+                                </div>
+                                <div class="team-stat-item">
+                                    <span class="stat-value">100%</span>
+                                    <span class="stat-label">Execution</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Technical Partner -->
+                <div class="team-card">
+                    <div class="team-card-inner">
+                        <div class="team-info">
+                            <h3>Belal Mohamed</h3>
+                            <p class="team-role">Technical Partner</p>
+                            <p class="team-bio">
+                                Deep tech specialist ensuring our infrastructure is scalable, secure, and always ahead of the curve.
+                            </p>
+                            <div class="team-stats">
+                                <div class="team-stat-item">
+                                    <span class="stat-value">Code</span>
+                                    <span class="stat-label">Infrastructure</span>
+                                </div>
+                                <div class="team-stat-item">
+                                    <span class="stat-value">99.9%</span>
+                                    <span class="stat-label">Uptime</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Head of Marketing -->
+                <div class="team-card">
+                    <div class="team-card-inner">
+                        <div class="team-info">
+                            <h3>Aasser Ihab</h3>
+                            <p class="team-role">Head of Marketing</p>
+                            <p class="team-bio">
+                                Bridging the gap between complex tech and human stories. Telling the world how Remify changes lives.
+                            </p>
+                            <div class="team-stats">
+                                <div class="team-stat-item">
+                                    <span class="stat-value">Growth</span>
+                                    <span class="stat-label">Brand Voice</span>
+                                </div>
+                                <div class="team-stat-item">
+                                    <span class="stat-value">Global</span>
+                                    <span class="stat-label">Reach</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Design Agent -->
+                <div class="team-card">
+                    <div class="team-card-inner">
+                        <div class="team-info">
+                            <h3>Youssef Eltobgi</h3>
+                            <p class="team-role">Design Agent</p>
+                            <p class="team-bio">
+                                Crafting the user experience. Ensuring that powerful automation feels simple, intuitive, and human.
+                            </p>
+                            <div class="team-stats">
+                                <div class="team-stat-item">
+                                    <span class="stat-value">UI/UX</span>
+                                    <span class="stat-label">Interface</span>
+                                </div>
+                                <div class="team-stat-item">
+                                    <span class="stat-value">Pixel</span>
+                                    <span class="stat-label">Perfect</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Optional: Team CTA -->
+            <!-- <div class="team-cta">
+                <p>Want to join a team building the future of autonomous operations?</p>
+                <a href="mailto:careers@remify.com" class="btn btn-secondary">View Open Positions →</a>
+              </div>
+
+            </div> -->
+    </section>
+
+    <!-- CTA -->
+    <section class="section" id="cta">
+        <div class="container">
+            <div class="cta-section">
+                <h2>Ready to Build Your Autonomous Operations Layer?</h2>
+                <p>
+                    Tell us how your team works today. We'll show you what it looks like when 30-60% of that work runs automatically — with zero drop-offs, faster response times, and your team focused on high-value work.
+                </p>
+                <a href="https://calendly.com/admin-remifyautomations/30min" target="_blank" class="btn btn-primary">
+                    Book Your Strategy Call →
+                </a>
+            </div>
         </div>
-      </div>
+    </section>
+    <footer class="site-footer">
+        <div class="container footer-inner">
 
-    </div>
+            <!-- Left: Brand & Legal -->
+            <div class="footer-left">
+                <a href="#hero" class="brand">
+                    <img src="remify.jpg" alt="Remify Logo" class="brand-logo">
+                    <span class="brand-name">Remify</span>
+                </a>
+                <p class="copyright">© 2025 Remify. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
 
-    <!-- Optional: Team CTA -->
-    <!-- <div class="team-cta">
-      <p>Want to join a team building the future of autonomous operations?</p>
-      <a href="mailto:careers@remify.com" class="btn btn-secondary">View Open Positions →</a>
-    </div>
+            <!-- Right: Socials -->
+            <div class="social-links">
+                <a href="https://www.tiktok.com/@remify_automations?is_from_webapp=1&sender_device=pc" target="_blank">Tiktok</a>
+                <a href="https://x.com/remify_AI" target="_blank">Twitter/X</a>
+                <a href="https://www.instagram.com/remify_automations/" target="_blank">Instagram</a>
+            </div>
 
-  </div> -->
-</section>
-
-  <!-- CTA -->
-  <section class="section" id="cta">
-    <div class="container">
-      <div class="cta-section">
-        <h2>Ready to Build Your Autonomous Operations Layer?</h2>
-        <p>
-          Tell us how your team works today. We'll show you what it looks like when 30-60% of that work runs automatically — with zero drop-offs, faster response times, and your team focused on high-value work.
-        </p>
-        <a href="https://calendly.com/admin-remifyautomations/30min" target="_blank" class="btn btn-primary">
-          Book Your Strategy Call →
-        </a>
-      </div>
-    </div>
-  </section>
-  
-<script>
-  // FORCE SCROLL TO TOP ON LOAD
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    } else {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    }
-    // Clear the #hash from the URL so it doesn't jump
-    if (window.location.hash) {
-        history.replaceState(null, null, window.location.pathname);
-        window.scrollTo(0, 0);
-    }
-
-    // -------------------------------------------------------------------
-    // TYPING ANIMATION SCRIPT
-    // -------------------------------------------------------------------
-    const words = [
-        "Workflow", 
-        "Scalability", 
-        "Scalable AI", 
-        "Systems"
-        ];
-    
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingSpeed = 100; // milliseconds per character
-    const deletingSpeed = 60;
-    const pauseTime = 1500; // Pause after full word is typed
-
-    const textElement = document.getElementById('typewriter-text');
-    let statsAnimated = false;
-
-    function typeWriter() {
-        if (!textElement) return; // Guard clause in case element isn't ready
-        
-        const currentWord = words[wordIndex];
-        
-        if (!isDeleting) {
-            // Typing phase
-            textElement.textContent = currentWord.substring(0, charIndex + 1);
-            charIndex++;
-
-            if (charIndex === currentWord.length) {
-                // Word is fully typed, start pause, then delete
-                isDeleting = true;
-                setTimeout(typeWriter, pauseTime);
-            } else {
-                setTimeout(typeWriter, typingSpeed);
-            }
-        } else {
-            // Deleting phase
-            textElement.textContent = currentWord.substring(0, charIndex - 1);
-            charIndex--;
-
-            if (charIndex === 0) {
-                // Word is fully deleted, move to the next word
-                isDeleting = false;
-                wordIndex = (wordIndex + 1) % words.length; // Loop back to start if needed
-                setTimeout(typeWriter, typingSpeed * 2); // Longer pause before typing next word
-            } else {
-                setTimeout(typeWriter, deletingSpeed);
-            }
-        }
-    }
-    
-    // -------------------------------------------------------------------
-    // STAT COUNTER FUNCTIONS (Your existing logic)
-    // -------------------------------------------------------------------
-
-    function animateValue(obj, start, end, duration) {
-      let startTimestamp = null;
-      const step = (timestamp) => {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-        
-        const decimals = String(end).includes('.') ? String(end).split('.')[1].length : 0;
-        let currentValue = start + progress * (end - start);
-
-        if (obj.dataset.unit === 'time') {
-          obj.textContent = Math.floor(currentValue) + '+';
-        } else if (obj.dataset.unit === 'currency') {
-          let formattedValue;
-          
-          // NEW LOGIC: If the TARGET (end) is huge, format as Millions from the start
-          if (end >= 1000000) {
-            // Always show as 0.0M, 0.5M, 2.1M etc.
-            formattedValue = '$' + (currentValue / 1000000).toFixed(1) + 'M+';
-          } else {
-            formattedValue = '$' + Math.floor(currentValue) + '+';
-          }
-          obj.textContent = formattedValue;
-        } else if (obj.dataset.unit === 'percentage') {
-          obj.textContent = currentValue.toFixed(decimals) + '%';
-        }
-
-        if (progress < 1) {
-          window.requestAnimationFrame(step);
-        }
-      };
-      window.requestAnimationFrame(step);
-    }
-    function animateStats() {
-        const statElements = document.querySelectorAll('.proof-stat-value');
-        statElements.forEach(el => {
-          let endValueString = el.textContent.replace(/[^\d\.]/g, ''); 
-          
-          if (el.textContent.includes('M')) {
-              endValueString = parseFloat(endValueString) * 1000000;
-          }
-          
-          const endValue = parseFloat(endValueString);
-          
-          animateValue(el, 0, endValue, 2000);
-        });
-    }
-
-    // -------------------------------------------------------------------
-    // INTERSECTION OBSERVER SETUP (NEW LOGIC)
-    // -------------------------------------------------------------------
-
-    function setupIntersectionObserver() {
-        const targetSection = document.querySelector('.social-proof');
-        
-        if (!targetSection || statsAnimated) return;
-
-        // Options: Trigger when 10% of the element is visible
-        const options = {
-            root: null, // viewport is the root
-            rootMargin: '0px',
-            threshold: 0.1 
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !statsAnimated) {
-                    // Start the animation and prevent running again
-                    animateStats();
-                    statsAnimated = true;
-                    observer.unobserve(entry.target); // Stop observing once animated
-                }
-            });
-        }, options);
-
-        observer.observe(targetSection);
-    }
-
-    // -------------------------------------------------------------------
-    // PROCESS SCROLL HIGHLIGHTER
-    // -------------------------------------------------------------------
-    function setupProcessObserver() {
-        const steps = document.querySelectorAll('.process-step');
-        
-        const options = {
-            root: null,
-            rootMargin: '-40% 0px -40% 0px', // Triggers only when element is in the MIDDLE 20% of screen
-            threshold: 0
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    // Add 'active' class when in the middle
-                    entry.target.classList.add('active');
-                } else {
-                    // Remove 'active' class when leaving the middle
-                    entry.target.classList.remove('active');
-                }
-            });
-        }, options);
-
-        steps.forEach(step => observer.observe(step));
-    }
-
-    // -------------------------------------------------------------------
-    // PARTNER LOGO REVEAL
-    // -------------------------------------------------------------------
-    function setupPartnerObserver() {
-        // Updated to target the new class .partner-card
-        const partner = document.querySelector('.partner-card');
-        if (!partner) return;
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, { threshold: 0.5 }); // Trigger when 50% visible
-
-        observer.observe(partner);
-    }
-
-// Start all animations and observers
-    window.onload = function() {
-      typeWriter();
-      setupIntersectionObserver(); // For stats
-      setupProcessObserver();      // For process steps
-      setupPartnerObserver();
-    };
-    
-  </script>
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      
-      <!-- Left: Brand & Legal -->
-      <div class="footer-left">
-        <a href="#hero" class="brand">
-          <img src="remify.jpg" alt="Remify Logo" class="brand-logo">
-          <span class="brand-name">Remify</span>
-        </a>
-        <p class="copyright">© 2025 Remify. All rights reserved.</p>
-        <div class="legal-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
         </div>
-      </div>
-      
-      <!-- Right: Socials -->
-      <div class="social-links">
-        <a href="https://www.tiktok.com/@remify_automations?is_from_webapp=1&sender_device=pc" target="_blank">Tiktok</a>
-        <a href="https://x.com/remify_AI" target="_blank">Twitter/X</a>
-        <a href="https://www.instagram.com/remify_automations/" target="_blank">Instagram</a>
-      </div>
-
-    </div>
-  </footer>
+    </footer>
+    <script src="remify.js"></script>
 </body>
 </html>
     
