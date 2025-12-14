@@ -1,16 +1,24 @@
-  // FORCE SCROLL TO TOP ON LOAD
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    } else {
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        }
-    }
-    // Clear the #hash from the URL so it doesn't jump
-    if (window.location.hash) {
+// SMART SCROLL V2: Handle Refreshes vs. Links
+window.addEventListener('load', function() {
+    // 1. Check if the user is REFRESHING the page
+    const navigationEntry = performance.getEntriesByType("navigation")[0];
+    
+    if (navigationEntry && navigationEntry.type === 'reload') {
+        // If it's a REFRESH, force scroll to top immediately
+        window.scrollTo(0, 0);
+        // Optional: Clean the URL so it doesn't say #outcomes anymore
         history.replaceState(null, null, window.location.pathname);
-    window.scrollTo(0, 0);
-    }
+    } 
+    // 2. If it's NOT a refresh (it's a link click), just let the browser do its job!
+    // We don't need to add any code here. The browser handles the jump automatically.
+});
+
+// FORCE SCROLL RESTORATION TO MANUAL
+// This stops the browser from "remembering" the scroll position on its own
+if (history.scrollRestoration) {
+    history.scrollRestoration = 'manual';
+}
+
 
     // -------------------------------------------------------------------
     // TYPING ANIMATION SCRIPT
