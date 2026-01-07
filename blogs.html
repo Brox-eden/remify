@@ -1,0 +1,248 @@
+<!-- This is the new Blogs Page-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remify Blog | Insights on Autonomous Operations & AI Agents</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="remify-round.png">
+    <link rel="apple-touch-icon" href="remify-round.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="remify.css">
+</head>
+
+<body>
+    <!-- HEADER -->
+    <header class="site-header">
+        <div class="container nav-container">
+            <a href="index.html" class="brand">
+                <img src="remify.jpg" alt="Remify Logo" class="brand-logo">
+                <span class="brand-name">Remify</span>
+            </a>
+            <nav class="main-nav">
+                <a href="index.html#outcomes">Results</a>
+                <a href="index.html#services">Services</a>
+                <a href="index.html#stack">Stack</a>
+                <a href="index.html#process">Process</a>
+                <a href="blogs.html">Blogs</a>
+                <a href="index.html#cta" class="nav-cta">Book Your Strategy Call</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- BLOG HERO -->
+    <section class="hero" style="min-height: 60vh; padding-top: 140px; padding-bottom: 60px;">
+        <div class="container" style="text-align: center;">
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                <span class="hero-eyebrow">Insights & Resources</span>
+                <span class="hero-eyebrow"
+                    style="background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.4); color: #fbbf24;">🚧
+                    In Progress</span>
+            </div>
+            <h1 class="hero-title" style="margin-bottom: 1.5rem;">
+                The Remify Blog
+            </h1>
+            <p class="hero-subtitle" style="margin: 0 auto; max-width: 700px;">
+                Deep dives into autonomous operations, AI agents, workflow automation, and the future of work. Real
+                insights from the trenches.
+            </p>
+        </div>
+    </section>
+
+    <!-- FEATURED ARTICLE -->
+    <section class="section" style="padding-top: 2rem;">
+        <div class="container">
+            <div class="featured-article">
+                <span class="featured-badge">Featured Article</span>
+                <div style="display: flex; gap: 3rem; align-items: start; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 300px;">
+                        <span class="blog-category category-ai">AI Agents</span>
+                        <h2 style="font-family: 'Inter Tight'; font-size: 2.2rem; margin: 0 0 1rem; line-height: 1.2;">
+                            How MCP is Revolutionizing AI Agent Development
+                        </h2>
+                        <p
+                            style="font-size: 1.1rem; color: var(--color-text-muted); margin-bottom: 1.5rem; line-height: 1.7;">
+                            The Model Context Protocol (MCP) is changing how we build AI agents. Instead of creating
+                            custom integrations for every tool, MCP provides a universal standard that lets AI models
+                            plug into your data instantly. Here's what you need to know.
+                        </p>
+                        <div class="blog-meta" style="border-top: none; padding-top: 0;">
+                            <span class="blog-date">Jan 5, 2026</span>
+                            <span class="blog-read-time">8 min read</span>
+                        </div>
+                        <a href="#" class="read-more-btn">Read Full Article →</a>
+                    </div>
+                    <div class="outcome-icon" style="width: 120px; height: 120px; font-size: 3rem; margin: 0;">
+                        <img src="brain.png" alt="AI Brain" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CATEGORY FILTERS -->
+    <section class="section" style="padding-top: 1rem;">
+        <div class="container">
+            <div class="blog-filters">
+                <button class="filter-btn active" data-category="all">All Posts</button>
+                <button class="filter-btn" data-category="ai-agents">AI Agents</button>
+                <button class="filter-btn" data-category="automation">Automation</button>
+                <button class="filter-btn" data-category="workflows">Workflows</button>
+                <button class="filter-btn" data-category="case-studies">Case Studies</button>
+                <button class="filter-btn" data-category="tutorials">Tutorials</button>
+            </div>
+
+            <!-- BLOG GRID -->
+            <div class="blog-grid">
+
+                <!-- Blog Post 1 -->
+                <article class="blog-card" data-category="automation">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="gears.png" alt="Automation" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-automation">Automation</span>
+                    <h3>5 Signs Your Business Needs Automation Now</h3>
+                    <p class="blog-excerpt">
+                        Manual tasks eating up your team's time? Missing leads in the chaos? Here are five clear signals
+                        that it's time to automate your operations before it costs you growth.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Jan 3, 2026</span>
+                        <span class="blog-read-time">6 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+                <!-- Blog Post 2 -->
+                <article class="blog-card" data-category="workflows">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="shuffle.png" alt="Workflows" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-workflows">Workflows</span>
+                    <h3>Building Bulletproof Workflows: A Step-by-Step Guide</h3>
+                    <p class="blog-excerpt">
+                        Great workflows don't break. Learn how to design, test, and deploy workflow automations that
+                        handle edge cases, errors, and scale without human intervention.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Dec 28, 2025</span>
+                        <span class="blog-read-time">10 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+                <!-- Blog Post 3 -->
+                <article class="blog-card" data-category="case-studies">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="target.png" alt="Case Study" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-case-studies">Case Studies</span>
+                    <h3>How We Saved a SaaS Company 40 Hours Per Week</h3>
+                    <p class="blog-excerpt">
+                        A behind-the-scenes look at how we automated client onboarding for a growing SaaS startup,
+                        cutting manual work from 8 hours to 15 minutes per client.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Dec 22, 2025</span>
+                        <span class="blog-read-time">7 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+                <!-- Blog Post 4 -->
+                <article class="blog-card" data-category="ai-agents">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="brain.png" alt="AI" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-ai">AI Agents</span>
+                    <h3>The Real Cost of NOT Using AI Agents</h3>
+                    <p class="blog-excerpt">
+                        While your competitors deploy AI agents for customer support and data analysis, manual processes
+                        are costing you more than you think. Here's the math.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Dec 18, 2025</span>
+                        <span class="blog-read-time">5 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+                <!-- Blog Post 5 -->
+                <article class="blog-card" data-category="tutorials">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="editnote.png" alt="Tutorial" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-tutorials">Tutorials</span>
+                    <h3>RPA 101: Automating Legacy Systems Without APIs</h3>
+                    <p class="blog-excerpt">
+                        Not every tool has an API. Learn how Robotic Process Automation (RPA) bots can interact with
+                        legacy software, fill forms, and extract data like a human would.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Dec 15, 2025</span>
+                        <span class="blog-read-time">12 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+                <!-- Blog Post 6 -->
+                <article class="blog-card" data-category="case-studies">
+                    <div class="outcome-icon" style="width: 60px; height: 60px; margin-bottom: 1.5rem;">
+                        <img src="rocket.png" alt="Success" style="width: 100%; height: 100%; object-fit: contain;">
+                    </div>
+                    <span class="blog-category category-case-studies">Case Studies</span>
+                    <h3>From Chaos to Clarity: Automating Lead Management</h3>
+                    <p class="blog-excerpt">
+                        See how one agency went from losing 30% of leads to 100% capture and routing accuracy with
+                        intelligent workflow automation and CRM integration.
+                    </p>
+                    <div class="blog-meta">
+                        <span class="blog-date">Dec 10, 2025</span>
+                        <span class="blog-read-time">9 min read</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read More →</a>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- UNDER CONSTRUCTION NOTICE -->
+    <section class="section">
+        <div class="container">
+            <div class="construction-notice">
+                <h3>Blog Under Construction</h3>
+                <p>We're crafting deep, actionable content on autonomous operations, AI agents, and workflow automation.
+                    Check back soon for more insights from the trenches.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <div class="footer-left">
+                <p class="copyright">© 2025 Remify Automations. All rights reserved.</p>
+                <div class="legal-links">
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="cookies.html">Cookies Policy</a>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="https://www.tiktok.com/@remify_automations?is_from_webapp=1&sender_device=pc"
+                    target="_blank">Tiktok</a>
+                <a href="https://x.com/remify_AI" target="_blank">Twitter/X</a>
+                <a href="https://www.instagram.com/remify_automations/" target="_blank">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="remify.js"></script>
+</body>
+
+</html>

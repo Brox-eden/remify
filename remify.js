@@ -1,14 +1,14 @@
 // SMART SCROLL V2: Handle Refreshes vs. Links
-window.addEventListener('load', function() {
+window.addEventListener('load', function () {
     // 1. Check if the user is REFRESHING the page
     const navigationEntry = performance.getEntriesByType("navigation")[0];
-    
+
     if (navigationEntry && navigationEntry.type === 'reload') {
         // If it's a REFRESH, force scroll to top immediately
         window.scrollTo(0, 0);
         // Optional: Clean the URL so it doesn't say #outcomes anymore
         history.replaceState(null, null, window.location.pathname);
-    } 
+    }
     // 2. If it's NOT a refresh (it's a link click), just let the browser do its job!
     // We don't need to add any code here. The browser handles the jump automatically.
 });
@@ -20,127 +20,127 @@ if (history.scrollRestoration) {
 }
 
 
-    // -------------------------------------------------------------------
-    // TYPING ANIMATION SCRIPT
-    // -------------------------------------------------------------------
-    const words = [
+// -------------------------------------------------------------------
+// TYPING ANIMATION SCRIPT
+// -------------------------------------------------------------------
+const words = [
     "Workflow",
     "Scalability",
     "Scalable AI",
     "Systems"
-    ];
+];
 
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingSpeed = 100; // milliseconds per character
-    const deletingSpeed = 60;
-    const pauseTime = 1500; // Pause after full word is typed
+let wordIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+const typingSpeed = 100; // milliseconds per character
+const deletingSpeed = 60;
+const pauseTime = 1500; // Pause after full word is typed
 
-    const textElement = document.getElementById('typewriter-text');
-    let statsAnimated = false;
+const textElement = document.getElementById('typewriter-text');
+let statsAnimated = false;
 
-    function typeWriter() {
-        if (!textElement) return; // Guard clause in case element isn't ready
+function typeWriter() {
+    if (!textElement) return; // Guard clause in case element isn't ready
 
     const currentWord = words[wordIndex];
 
     if (!isDeleting) {
         // Typing phase
         textElement.textContent = currentWord.substring(0, charIndex + 1);
-    charIndex++;
+        charIndex++;
 
-    if (charIndex === currentWord.length) {
-        // Word is fully typed, start pause, then delete
-        isDeleting = true;
-    setTimeout(typeWriter, pauseTime);
-            } else {
-        setTimeout(typeWriter, typingSpeed);
-            }
+        if (charIndex === currentWord.length) {
+            // Word is fully typed, start pause, then delete
+            isDeleting = true;
+            setTimeout(typeWriter, pauseTime);
         } else {
+            setTimeout(typeWriter, typingSpeed);
+        }
+    } else {
         // Deleting phase
         textElement.textContent = currentWord.substring(0, charIndex - 1);
-    charIndex--;
+        charIndex--;
 
-    if (charIndex === 0) {
-        // Word is fully deleted, move to the next word
-        isDeleting = false;
-    wordIndex = (wordIndex + 1) % words.length; // Loop back to start if needed
-    setTimeout(typeWriter, typingSpeed * 2); // Longer pause before typing next word
-            } else {
-        setTimeout(typeWriter, deletingSpeed);
-            }
+        if (charIndex === 0) {
+            // Word is fully deleted, move to the next word
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length; // Loop back to start if needed
+            setTimeout(typeWriter, typingSpeed * 2); // Longer pause before typing next word
+        } else {
+            setTimeout(typeWriter, deletingSpeed);
         }
     }
+}
 
-    // -------------------------------------------------------------------
-    // STAT COUNTER FUNCTIONS (Your existing logic)
-    // -------------------------------------------------------------------
+// -------------------------------------------------------------------
+// STAT COUNTER FUNCTIONS (Your existing logic)
+// -------------------------------------------------------------------
 
-    function animateValue(obj, start, end, duration) {
-        let startTimestamp = null;
-      const step = (timestamp) => {
+function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
         if (!startTimestamp) startTimestamp = timestamp;
-    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
 
-    const decimals = String(end).includes('.') ? String(end).split('.')[1].length : 0;
-    let currentValue = start + progress * (end - start);
+        const decimals = String(end).includes('.') ? String(end).split('.')[1].length : 0;
+        let currentValue = start + progress * (end - start);
 
-    if (obj.dataset.unit === 'time') {
-        obj.textContent = Math.floor(currentValue) + '+';
+        if (obj.dataset.unit === 'time') {
+            obj.textContent = Math.floor(currentValue) + '+';
         } else if (obj.dataset.unit === 'currency') {
-        let formattedValue;
+            let formattedValue;
 
-          // NEW LOGIC: If the TARGET (end) is huge, format as Millions from the start
-          if (end >= 1000000) {
-        // Always show as 0.0M, 0.5M, 2.1M etc.
-        formattedValue = '$' + (currentValue / 1000000).toFixed(1) + 'M+';
-          } else {
-        formattedValue = '$' + Math.floor(currentValue) + '+';
-          }
-    obj.textContent = formattedValue;
+            // NEW LOGIC: If the TARGET (end) is huge, format as Millions from the start
+            if (end >= 1000000) {
+                // Always show as 0.0M, 0.5M, 2.1M etc.
+                formattedValue = '$' + (currentValue / 1000000).toFixed(1) + 'M+';
+            } else {
+                formattedValue = '$' + Math.floor(currentValue) + '+';
+            }
+            obj.textContent = formattedValue;
         } else if (obj.dataset.unit === 'percentage') {
-        obj.textContent = currentValue.toFixed(decimals) + '%';
+            obj.textContent = currentValue.toFixed(decimals) + '%';
         }
 
-    if (progress < 1) {
-        window.requestAnimationFrame(step);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
         }
-      };
+    };
     window.requestAnimationFrame(step);
-    }
-    function animateStats() {
-        const statElements = document.querySelectorAll('.proof-stat-value');
-        statElements.forEach(el => {
+}
+function animateStats() {
+    const statElements = document.querySelectorAll('.proof-stat-value');
+    statElements.forEach(el => {
         let endValueString = el.textContent.replace(/[^\d\.]/g, '');
 
-    if (el.textContent.includes('M')) {
-        endValueString = parseFloat(endValueString) * 1000000;
-          }
+        if (el.textContent.includes('M')) {
+            endValueString = parseFloat(endValueString) * 1000000;
+        }
 
-    const endValue = parseFloat(endValueString);
+        const endValue = parseFloat(endValueString);
 
-    animateValue(el, 0, endValue, 2000);
-        });
-    }
+        animateValue(el, 0, endValue, 2000);
+    });
+}
 
-    // -------------------------------------------------------------------
-    // INTERSECTION OBSERVER SETUP (NEW LOGIC)
-    // -------------------------------------------------------------------
+// -------------------------------------------------------------------
+// INTERSECTION OBSERVER SETUP (NEW LOGIC)
+// -------------------------------------------------------------------
 
-    function setupIntersectionObserver() {
-        const targetSection = document.querySelector('.social-proof');
+function setupIntersectionObserver() {
+    const targetSection = document.querySelector('.social-proof');
 
     if (!targetSection || statsAnimated) return;
 
     // Options: Trigger when 10% of the element is visible
     const options = {
         root: null, // viewport is the root
-    rootMargin: '0px',
-    threshold: 0.1 
-        };
+        rootMargin: '0px',
+        threshold: 0.1
+    };
 
-        const observer = new IntersectionObserver((entries, observer) => {
+    const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting && !statsAnimated) {
                 // Start the animation and prevent running again
@@ -149,24 +149,24 @@ if (history.scrollRestoration) {
                 observer.unobserve(entry.target); // Stop observing once animated
             }
         });
-        }, options);
+    }, options);
 
     observer.observe(targetSection);
-    }
+}
 
-    // -------------------------------------------------------------------
-    // PROCESS SCROLL HIGHLIGHTER
-    // -------------------------------------------------------------------
-    function setupProcessObserver() {
-        const steps = document.querySelectorAll('.process-step');
+// -------------------------------------------------------------------
+// PROCESS SCROLL HIGHLIGHTER
+// -------------------------------------------------------------------
+function setupProcessObserver() {
+    const steps = document.querySelectorAll('.process-step');
 
     const options = {
         root: null,
-    rootMargin: '-40% 0px -40% 0px', // Triggers only when element is in the MIDDLE 20% of screen
-    threshold: 0
-        };
+        rootMargin: '-40% 0px -40% 0px', // Triggers only when element is in the MIDDLE 20% of screen
+        threshold: 0
+    };
 
-        const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 // Add 'active' class when in the middle
@@ -176,35 +176,83 @@ if (history.scrollRestoration) {
                 entry.target.classList.remove('active');
             }
         });
-        }, options);
+    }, options);
 
-        steps.forEach(step => observer.observe(step));
-    }
+    steps.forEach(step => observer.observe(step));
+}
 
-    // -------------------------------------------------------------------
-    // PARTNER LOGO REVEAL
-    // -------------------------------------------------------------------
-    function setupPartnerObserver() {
-        // Updated to target the new class .partner-card
-        const partner = document.querySelector('.partner-card');
+// -------------------------------------------------------------------
+// PARTNER LOGO REVEAL
+// -------------------------------------------------------------------
+function setupPartnerObserver() {
+    // Updated to target the new class .partner-card
+    const partner = document.querySelector('.partner-card');
     if (!partner) return;
 
-        const observer = new IntersectionObserver((entries) => {
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
                 observer.unobserve(entry.target);
             }
         });
-        }, {threshold: 0.5 }); // Trigger when 50% visible
+    }, { threshold: 0.5 }); // Trigger when 50% visible
 
     observer.observe(partner);
-    }
+}
 
-    // Start all animations and observers
-    window.onload = function() {
-        typeWriter();
+// Start all animations and observers
+window.onload = function () {
+    typeWriter();
     setupIntersectionObserver(); // For stats
     setupProcessObserver();      // For process steps
     setupPartnerObserver();
-    };
+};
+
+
+// Blog Category Filter Functionality
+document.addEventListener('DOMContentLoaded', function () {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const blogCards = document.querySelectorAll('.blog-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            const category = this.getAttribute('data-category');
+
+            // Filter blog cards
+            blogCards.forEach(card => {
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    if (card.getAttribute('data-category') === category) {
+                        card.style.display = 'flex';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            card.style.display = 'none';
+                        }, 300);
+                    }
+                }
+            });
+        });
+    });
+
+    // Add smooth fade-in animation to cards
+    blogCards.forEach(card => {
+        card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    });
+});
