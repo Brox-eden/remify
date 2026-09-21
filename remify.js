@@ -181,32 +181,11 @@ function setupProcessObserver() {
     steps.forEach(step => observer.observe(step));
 }
 
-// -------------------------------------------------------------------
-// PARTNER LOGO REVEAL
-// -------------------------------------------------------------------
-function setupPartnerObserver() {
-    // Updated to target the new class .partner-card
-    const partner = document.querySelector('.partner-card');
-    if (!partner) return;
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.5 }); // Trigger when 50% visible
-
-    observer.observe(partner);
-}
-
 // Start all animations and observers
 window.onload = function () {
     typeWriter();
     setupIntersectionObserver(); // For stats
     setupProcessObserver();      // For process steps
-    setupPartnerObserver();
 };
 
 
